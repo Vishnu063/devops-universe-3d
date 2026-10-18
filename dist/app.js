@@ -1,5 +1,5 @@
 import {labs,topics,cloudServices} from './data.js';
-import {clamp,initialProgress,getRecord,markVisited,markTask,isComplete,parseProgress,matchingTopics,canAdvance} from './core.js';
+import {clamp,initialProgress,getRecord,markVisited,markTask,isComplete,parseProgress,matchingTopics,canAdvance,resolveModel} from './core.js';
 import {ArchitectureModel} from './model.js';
 import {initializeStudy,openTopic,renderRoadmap,learningProgressReport,resetLearning} from './study.js';
 import {connectionDetails} from './network.js';
@@ -34,4 +34,4 @@ $('reset-progress').addEventListener('click',()=>{if(!resetArmed){resetArmed=tru
 if(!('speechSynthesis'in window)){$('speak').disabled=true;$('speech-note').textContent='Speech is unavailable in this browser. All explanations are available as text.';}else $('speak').addEventListener('click',()=>{if(speechSynthesis.speaking){speechSynthesis.cancel();$('speak').textContent='♬ Read explanation';return;}const n=current.nodes.find(n=>n.id===selected);const utterance=new SpeechSynthesisUtterance(`${n.title}. ${n.purpose} It receives: ${n.input} It sends: ${n.output} Why it matters: ${n.why} Remember: ${n.tip}`);utterance.rate=.9;utterance.onend=utterance.onerror=()=>{$('speak').textContent='♬ Read explanation';};speechSynthesis.speak(utterance);$('speak').textContent='■ Stop reading';});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stop();if('speechSynthesis'in window)speechSynthesis.cancel();}});
 function renderConnection(){const d=connectionDetails(current,index);const fields=[['RELATIONSHIP',d.kind],['SOURCE',d.sourceName+' · '+d.source],['DESTINATION',d.destinationName+' · '+d.destination],['SOURCE PORT',d.sourcePort],['DESTINATION PORT',d.destinationPort],['PROTOCOL',d.protocol],['ROUTE / BOUNDARY',d.route],['ACCESS DECISION (EXAMPLE)',d.security],['RETURN PATH / CAVEAT',d.response],['EXAMPLE PAYLOAD',d.payload]];$('connection-fields').replaceChildren(...fields.map(([title,value])=>{const group=el('div',undefined,'connection-field');group.append(el('dt',title),el('dd',value));return group;}));$('connection-note').textContent=d.note;}
-loadLab(labs[0].id);renderLibrary();initializeStudy({openLab,showPage});showPage('study');
+loadLab(labs[0].id);renderLibrary();initializeStudy({openLab,showPage});const linkedModel=resolveModel(globalThis.location?.search||'',labs);if(linkedModel)openLab(linkedModel);else showPage('study');

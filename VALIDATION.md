@@ -5,9 +5,10 @@
 Automated validation performed during implementation:
 
 - Syntax checks for all nine application JavaScript modules.
-- 24 Node test cases passed.
+- 25 Node test cases passed.
 - The suite includes four passing Python integration tests using a real ephemeral loopback HTTP server, a temporary SQLite database, expected health/products/metrics responses and a 404 route.
 - All 30 courses were selected through the DOM fixture; lesson navigation, quiz retries and evidence checkpoints were exercised.
+- Known-model deep links and invalid-link fallback were checked.
 - All 12 model journeys and their failure choices were exercised through the fixture.
 - Network policy flags, invalid ports, return-port direction, conceptual connections and clickable model paths were checked.
 - Course prerequisite graph, malformed stored records, unknown identifiers, export structure dependencies and all-progress reset were checked.

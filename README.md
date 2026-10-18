@@ -10,6 +10,14 @@ A free, topic-first DevOps learning website with staged lessons, inspectable arc
 
 *Actual screenshot of the deployed topic-learning homepage, captured 18 October 2026. The live site requires owner access.*
 
+## 3D model sample
+
+[![Animated 3D model showing DNS, HTTPS, load balancing, application and database request/response steps](docs/previews/web-request-3d.gif)](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?model=web)
+
+**[Explore this model live →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?model=web)**
+
+*Animated preview generated from the website’s model renderer and lesson data, not a browser recording. Click to rotate, zoom, inspect connections and follow each step on the live site. GitHub renders the preview; it does not embed the interactive website. Live-site owner access is required.*
+
 ## Start
 
 ```bash
@@ -117,7 +125,7 @@ npm run check
 npm test
 ```
 
-The current suite has **24 Node test cases**, including one that runs **four real Python HTTP/database integration tests**. It covers all topic selections, lesson stages, assessment attempts, minimum evidence handling, progress persistence/reset, prerequisites, curriculum/model references, network deny conditions, connection picking, response ports, corrupt-storage input and renderer coordinate checks at multiple widths. DOM tests use a minimal fixture, not a real browser.
+The current suite has **25 Node test cases**, including one that runs **four real Python HTTP/database integration tests**. It covers all topic selections, lesson stages, assessment attempts, minimum evidence handling, progress persistence/reset, prerequisites, curriculum/model references, network deny conditions, connection picking, response ports, corrupt-storage input and renderer coordinate checks at multiple widths. DOM tests use a minimal fixture, not a real browser.
 
 Verified locally: JavaScript syntax; these automated tests; the supplied API’s health, product read, metrics and 404 behavior over loopback HTTP.
 
