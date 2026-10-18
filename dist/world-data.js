@@ -1,3 +1,4 @@
+import {installK8sFlows} from './k8s-learning.js';
 import {extendCity} from './city-data.js';
 // Explicit educational architecture. Coordinates and statuses are synthetic, not a live scan.
 const docs='https://kubernetes.io/docs/concepts/';
@@ -142,3 +143,5 @@ export const worldFailures={
 export const worldScope={included:['Environment, control plane, two worker nodes and app replicas','Containers, init containers, helper sidecars and declared volumes','Probes, resource requests/limits, ports, environment and security settings','Workload/API, identity, scheduling, scaling and storage concepts','Distinct traffic, delivery, network-mechanism and operational flows'],notIncluded:['An exhaustive inventory of every Kubernetes API or plugin','A real cluster scanner, remote shell or automatic repair executor','A production-capacity or network-policy simulator','Detailed operator, Windows-node, multi-cluster, service-mesh or device-plugin implementations']};
 
 extendCity(worldNodes,worldFlows,worldScope,part);
+
+installK8sFlows(worldFlows);

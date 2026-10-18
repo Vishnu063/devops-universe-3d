@@ -6,7 +6,7 @@ import {worldNodes,worldFlows,worldFailures,worldScope} from '../dist/world-data
 import {ancestors,worldPosition,searchWorld,detailVisible,canStepWorld,clampPolar,validateWorld} from '../dist/world-core.js';
 import {buildWorldObjects,KubernetesWorld} from '../dist/world-scene.js';
 
-test('The city has 174 unique modeled elements, 30 small features and valid flows/failures',()=>{assert.equal(worldNodes.length,174);assert.equal(worldNodes.filter(n=>n.minor).length,30);assert.equal(validateWorld(worldNodes,worldFlows,worldFailures),true);assert.equal(Object.values(worldFlows).reduce((n,f)=>n+f.steps.length,0),140);for(const n of worldNodes)for(const k of ['purpose','input','output','notes'])assert.ok(n[k],`${n.id}: ${k}`);assert.ok(worldScope.notIncluded.length);});
+test('The city has 174 unique modeled elements, 30 small features and valid flows/failures',()=>{assert.equal(worldNodes.length,174);assert.equal(worldNodes.filter(n=>n.minor).length,30);assert.equal(validateWorld(worldNodes,worldFlows,worldFailures),true);assert.equal(Object.values(worldFlows).reduce((n,f)=>n+f.steps.length,0),166);for(const n of worldNodes)for(const k of ['purpose','input','output','notes'])assert.ok(n[k],`${n.id}: ${k}`);assert.ok(worldScope.notIncluded.length);});
 test('Ancestry and world positions reflect environment, cluster, node, Pod and feature layers',()=>{assert.deepEqual(ancestors(worldNodes,'readiness').map(n=>n.id),['environment','cluster','worker-a','pod-a','readiness']);assert.deepEqual(ancestors(worldNodes,'app-a').map(n=>n.id),['environment','cluster','worker-a','pod-a','app-a']);const normal=worldPosition(worldNodes,'readiness'),exploded=worldPosition(worldNodes,'readiness',true);assert.ok(exploded[1]>normal[1]);assert.equal(normal[0],exploded[0]);assert.throws(()=>worldPosition(worldNodes,'missing'));});
 test('Tiny details reveal with proximity, explicit detail toggle or selection without expanding their geometry',()=>{const n=worldNodes.find(n=>n.id==='readiness');assert.equal(detailVisible(n,40,'cluster'),false);assert.equal(detailVisible(n,3,'cluster'),true);assert.equal(detailVisible(n,40,'readiness'),true);assert.equal(detailVisible(n,40,'cluster',true),true);assert.deepEqual(n.size,[.32,.16,.32]);assert.ok(searchWorld(worldNodes,'READINESS').some(n=>n.id==='readiness'));assert.ok(searchWorld(worldNodes,'RBAC').some(n=>n.id==='rbac'));});
 test('User traffic has a DNS return and excludes control-plane HTTP forwarding',()=>{const steps=worldFlows.traffic.steps;assert.equal(steps[0].to,'public-dns');assert.equal(steps[1].to,'users');assert.equal(steps.at(-1).to,'users');for(const s of steps){assert.ok(!['api','etcd','scheduler','controllers'].includes(s.from));assert.ok(!['api','etcd','scheduler','controllers'].includes(s.to));}assert.ok(steps.some(s=>s.kind==='Logical routing'));});
@@ -36,4 +36,25 @@ test('AWS and Git have inspectable components and accurate separate learning jou
  for(const id of ['git','git-working','git-index','git-commit','git-branch','git-fetch','git-merge','git-tag','git-revert','git-ignore'])assert.ok(ancestors(worldNodes,id).some(n=>n.id==='git-district'));
  const aws=worldFlows['city-aws'].steps;assert.equal(aws[0].to,'aws-route53');assert.equal(aws[1].to,'users');assert.ok(aws.some(s=>s.from==='aws-alb'&&s.to==='aws-eks'));assert.ok(!aws.some(s=>s.to==='api'));
  assert.match(worldNodes.find(n=>n.id==='git-fetch').notes,/does not by itself merge/);
+});
+
+test('Focused Kubernetes lessons keep unrelated meshes hidden and distinguish logical arrows from network traffic',async()=>{
+ const {k8sLessons,lessonVisibleIds}=await import('../dist/k8s-learning.js');
+ for(const lesson of k8sLessons){const ids=lessonVisibleIds(worldNodes,lesson.nodes);assert.ok(ids.has('environment'));for(const step of lesson.steps){assert.ok(lesson.nodes.includes(step.from));assert.ok(lesson.nodes.includes(step.to));assert.ok(step.relation);}}
+ const built=buildWorldObjects(),context={...built,selected:'worker-a',detail:false,camera:new THREE.PerspectiveCamera(48,1,.03,800),routes:new THREE.Group(),particles:[new THREE.Mesh(new THREE.SphereGeometry(.1),new THREE.MeshBasicMaterial())],setDistrict:KubernetesWorld.prototype.setDistrict,setFlow:KubernetesWorld.prototype.setFlow,clearRoutes:KubernetesWorld.prototype.clearRoutes};context.camera.position.set(12,14,16);
+ KubernetesWorld.prototype.setLearning.call(context,k8sLessons[0].nodes);KubernetesWorld.prototype.updateVisibility.call(context);
+ const visible=id=>KubernetesWorld.prototype.objectVisible.call(context,built.objects.get(id));
+ for(const id of ['worker-a','pod-a','app-a'])assert.equal(visible(id),true);
+ for(const id of ['worker-b','sidecar-a','api','git','aws-alb','readiness'])assert.equal(visible(id),false,id);
+ KubernetesWorld.prototype.setFlow.call(context,'learn-k8s-inside',0,null);assert.equal(context.particles[0].visible,false);assert.ok(context.routes.children.some(o=>o.isLineSegments));
+ KubernetesWorld.prototype.setFlow.call(context,'learn-k8s-request',0,null);assert.equal(context.particles[0].visible,true);
+ KubernetesWorld.prototype.setLearning.call(context,null);KubernetesWorld.prototype.updateVisibility.call(context);assert.equal(visible('git'),true);
+});
+
+
+test('Compact Kubernetes layouts move the chosen components and restore original city coordinates',async()=>{
+ const {learningLayouts,k8sLessons}=await import('../dist/k8s-learning.js');const built=buildWorldObjects();const context={...built,routes:new THREE.Group(),particles:[],setDistrict:KubernetesWorld.prototype.setDistrict};
+ const original=built.objects.get('worker-a').getWorldPosition(new THREE.Vector3()).clone();KubernetesWorld.prototype.setLearning.call(context,k8sLessons[0].nodes,learningLayouts.inside);assert.deepEqual(built.objects.get('worker-a').getWorldPosition(new THREE.Vector3()).toArray(),[0,.7,0]);
+ for(const lesson of k8sLessons)KubernetesWorld.prototype.setLearning.call(context,lesson.nodes,learningLayouts[lesson.id]);
+ KubernetesWorld.prototype.setLearning.call(context,null);const restored=built.objects.get('worker-a').getWorldPosition(new THREE.Vector3());assert.ok(restored.distanceTo(original)<1e-8);assert.equal(built.objects.get('pod-a').parent,built.objects.get('worker-a'));
 });

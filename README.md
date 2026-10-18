@@ -30,6 +30,30 @@ Open **http://localhost:8080**. No npm installation is required. Use an HTTP ser
 
 The separate owner-private hosted site is [DevOps Universe 3D](https://devops-universe-3d.vishnukushwaha63.chatgpt.site). Repository pushes do not automatically update that hosted copy.
 
+## Kubernetes: watch first (v1.4)
+
+**[Start the Kubernetes lessons →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=kubernetes)** (owner-private)
+
+The 3D workspace now starts with **only a node, a Pod and an app container**. Other towns and unrelated Kubernetes components stay hidden. Choose **Watch**, pause, move one step at a time or inspect an object. Small lesson layouts keep the relevant objects together. Camera controls and teaching buttons remain available in full screen.
+
+Seven focused lessons add **26 explained steps**:
+
+1. Node → Pod → container: where the app runs.
+2. Deployment → ReplicaSet → Pods: ownership and replica intent.
+3. Client → Ingress → Service/Pod → response: application traffic.
+4. ConfigMap, Secret and environment: configuration references.
+5. Claims, provisioning and mounts: storage and persistence caveats.
+6. Startup, readiness, liveness and resource limits: health and symptoms.
+7. API, controllers, scheduler, kubelet and runtime: a new Pod’s startup.
+
+The first lesson is a containment view, not a packet trace. In these focused lessons, logical relationships use static dashed arrows. Network exchanges use cyan paths and moving particles during playback; control activity uses pink. Each lesson explains its abbreviated boundaries and what the arrow means. Detailed explanations sit outside the canvas, not over the model.
+
+**Entire K8s town** opens the full modeled Kubernetes area. **Explore city** restores the existing connected towns. Lesson steps keep their focused component set rather than reopening the city. The existing city content remains available.
+
+Example manifests and status/log notes are labeled illustrative. The image registry/name in these manifests is a placeholder requiring a real lab image and its configuration. Nothing is applied to a real cluster. Knowledge checks and the existing troubleshooting exercises are optional. This introduction is not an exhaustive Kubernetes course or proof of hands-on competence.
+
+Design reference: [rohitg00/k8sgames](https://github.com/rohitg00/k8sgames) inspired distinct resource shapes, separate relationship types and focused lessons. No source code or assets from that repository were copied into this update.
+
 ## Explore the DevOps city (v1.3.1)
 
 **[Enter the DevOps city →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=city)** (owner-private hosted site; the older `?world=kubernetes` link still opens the world)
@@ -38,10 +62,10 @@ The separate owner-private hosted site is [DevOps Universe 3D](https://devops-un
 
 *Illustration rendered from the actual Three.js meshes, not a browser screenshot. Browser/WebGL appearance, label placement and phone performance remain unverified.*
 
-Use **Complete city** for the whole architecture or choose a district for focused learning. Start with **code to production & feedback**, press **Watch flow**, pause, inspect a destination, and replay as needed. Selecting a district selects its related journey. The scene’s **Flow controls** panel starts collapsed so it does not cover the model; expand it only when needed. Use **Full screen** for a canvas-first view, and the same button or Escape to exit. A page-filling fallback is provided when native full screen is unavailable. Playing a connected journey reopens the whole city so its dependencies stay visible.
+The workspace starts in the Kubernetes introduction. Use **Explore city**, then **Complete city** for the whole architecture, or choose another district. Start with **code to production & feedback**, press **Watch flow**, pause, inspect a destination, and replay as needed. Selecting a district selects its related journey. The scene’s **Flow controls** panel starts collapsed so it does not cover the model; expand it only when needed. Use **Full screen** for a canvas-first view, and the same button or Escape to exit. A page-filling fallback is provided when native full screen is unavailable. Playing a connected journey reopens the whole city so its dependencies stay visible.
 
 - **174 modeled elements**, including **30 small configuration features**, across **11 districts**: Git/collaboration, delivery, Kubernetes, security, infrastructure as code, networking, AWS/cloud, Linux/containers, data/messaging, observability and reliability/recovery.
-- **15 guided journeys / 140 explained steps**: the four existing Kubernetes journeys plus release/feedback, network/return paths, infrastructure changes, telemetry, asynchronous work, recovery, security, container lifecycle, cloud events/capacity, Git internals and an AWS request/response example.
+- **22 guided journeys / 166 explained steps**: the four existing Kubernetes journeys plus release/feedback, network/return paths, infrastructure changes, telemetry, asynchronous work, recovery, security, container lifecycle, cloud events/capacity, Git internals, an AWS request/response example, and the seven focused Kubernetes lessons.
 - A compact, collapsible in-scene teaching card explains the active source, destination, operation/protocol, payload and purpose. Local operations, workflow decisions, control API calls and application network exchanges are labeled separately.
 - AWS service objects include EC2, IAM, Auto Scaling, Lambda, CloudTrail, VPC, Route 53, ALB, an EKS workload, ECR, S3, RDS, CloudWatch, Secrets Manager, security groups and NAT. The Git district includes working tree, index, commits, branch/HEAD, remote repository, fetch, integration, tags, revert and ignore rules.
 - Radial **Scan city** reveals cyan outlines by distance from the city center, with a discovery counter and clickable discovery list. Reduced-motion preferences reveal everything immediately. This scans educational objects, never real infrastructure.
@@ -188,6 +212,7 @@ dist/
   model-assets.js         Detailed code-native illustrated component geometry
   world-data.js           Nested Kubernetes catalog, flows and failure scenarios
   city-data.js            DevOps districts, component explanations and connected journeys
+  k8s-learning.js         Focused lessons, relationship types, compact layouts and examples
   world-core.js           Hierarchy, coordinates, detail visibility and flow gates
   world-scene.js          Perspective 3D scene, camera, picking and geometry
   world-ui.js             Explorer, search, inspector, flows and fallback UI

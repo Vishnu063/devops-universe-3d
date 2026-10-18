@@ -59,3 +59,13 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 - AWS and Git objects and paths are validated, including DNS response separation, EKS workload versus control-plane routing, and fetch versus merge.
 - Current inventory: 174 modeled elements, 11 districts, 30 minor features, 15 journeys and 140 steps.
 - Real browser full-screen permissions, mobile Safari behavior and visual layout remain unverified.
+
+## Kubernetes watch-first learning (version 1.4)
+
+- Seven focused lessons introduce 26 additional steps; the total is 174 modeled elements and 22 journeys / 166 steps.
+- The default text explorer exposes only worker A, Pod A and app container A. Lesson navigation preserves the chosen component set and Kubernetes context.
+- All lesson endpoints and ancestor visibility are validated. Tests build actual Three.js objects and confirm unrelated workers, control-plane services, AWS and Git objects are hidden in the first lesson.
+- Static logical arrows and animated exchange paths are exercised separately. Switching back to city mode restores the existing object hierarchy.
+- The DOM fixture exercises all seven lessons, individual steps, optional explained checks, next-lesson navigation, full-town/city exits and example YAML/log notes.
+- Existing evidence-gated simulated recovery, topic learning and full-screen mock checks remain in the test suite.
+- No real Kubernetes commands or remote services were executed. Browser/WebGL shading, label placement, touch interaction and device performance remain unverified because the supported browser-control skill is unavailable.

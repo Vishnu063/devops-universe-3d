@@ -118,7 +118,7 @@ test('Isometric asset styles cover all models and partial playback updates prese
 
 test('The world text explorer selects tiny features, shows ancestry and explains all simulated repairs without WebGL',async()=>{
  const {worldNodes,worldFlows,worldFailures}=await import('../dist/world-data.js');
- assert.equal($('world-tree').children.length,worldNodes.length);
+ assert.equal($('world-tree').children.length,3);assert.equal($('k8s-lesson').value,'0');$('k8s-city').click();assert.equal($('world-tree').children.length,worldNodes.length);
  $('world-search').value='readiness';$('world-search').dispatchEvent(new Event('input'));
  assert.ok($('world-tree').children.length>0);const row=$('world-tree').children.find(b=>b.textContent.includes('Readiness probe'));row.click();assert.equal($('world-node-title').textContent,'Readiness probe');assert.ok($('world-breadcrumb').textContent.includes('Application Pod A'));
  $('world-parent').click();assert.equal($('world-node-title').textContent,'Application Pod A');
@@ -159,4 +159,20 @@ test('Full screen supports native entry/exit and page fallback with Escape clean
  const escape=new Event('keydown');escape.key='Escape';documentMock.dispatchEvent(escape);assert.ok(!viewport.className.includes('viewport-fullscreen'));assert.equal(documentMock.body.style.overflow,'auto');
  delete viewport.requestFullscreen;delete documentMock.exitFullscreen;
  assert.match(html,/<details\b[^>]*id="city-guide"[^>]*>/);assert.doesNotMatch(html.match(/<details\b[^>]*id="city-guide"[^>]*>/)[0],/\bopen\b/);
+});
+
+test('Watch-first Kubernetes lessons isolate concepts, preserve context across steps and keep practice optional',async()=>{
+ const {k8sLessons}=await import('../dist/k8s-learning.js');
+ for(let i=0;i<k8sLessons.length;i++){
+  $('k8s-lesson').value=String(i);$('k8s-lesson').dispatchEvent(new Event('change'));
+  const lesson=k8sLessons[i];assert.equal($('world-tree').children.length,lesson.nodes.length);assert.equal($('k8s-goal').textContent,lesson.goal);assert.equal($('k8s-step-strip').hidden,false);
+  assert.ok($('world-flow').children.every(o=>o.value.startsWith('learn-k8s-')||['traffic','delivery','networking','operations'].includes(o.value)));
+  for(let s=1;s<lesson.steps.length;s++){$('k8s-next-step').click();assert.equal($('world-tree').children.length,lesson.nodes.length);assert.equal($('city-district').value,'cluster');}
+  assert.equal($('k8s-next-step').disabled,true);assert.equal($('k8s-strip-title').textContent,lesson.steps.at(-1).title);
+  const wrong=(lesson.correct+1)%lesson.options.length;$('k8s-answers').children[wrong].click();assert.match($('k8s-answer-feedback').textContent,/Try again/);$('k8s-answers').children[lesson.correct].click();assert.match($('k8s-answer-feedback').textContent,/Correct/);
+ }
+ $('k8s-lesson').value='0';$('k8s-lesson').dispatchEvent(new Event('change'));$('k8s-next-lesson').click();assert.equal($('k8s-lesson').value,'1');
+ $('k8s-town').click();assert.equal($('k8s-step-strip').hidden,true);assert.ok($('world-tree').children.length>12);assert.ok(!$('world-tree').textContent.includes('Amazon EC2'));
+ $('k8s-city').click();assert.equal($('world-tree').children.length,174);
+ $('k8s-lesson').value='0';$('k8s-lesson').dispatchEvent(new Event('change'));const app=$('world-tree').children.find(b=>b.textContent.includes('App container A'));app.click();assert.match($('k8s-yaml').textContent,/containerPort: 8080/);assert.match($('k8s-example-logs').textContent,/Example log/);
 });
