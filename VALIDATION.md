@@ -136,3 +136,6 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 
 ## v1.11 — simple first visit
 72 automated checks pass. The simple-flow check covers all 30 topics, first/last-step controls, changing topics and switching to/from the complete city. Syntax and whitespace checks pass. Real browser, touch, screen reader and participant testing remain pending.
+
+## v1.11.1 — complete city visibility
+73 tests pass. Added camera projection checks for all town bounds at aspect ratios 2, 1 and 0.45. Complete-city transition clears both simple-mode classes. Browser rendering and phone testing remain pending.

@@ -1,3 +1,9 @@
+## v1.11.1 · Complete city view
+
+Use **View complete city** on the topic chooser or lesson header. The page scrolls directly to the model and frames every town with space around its edges, including portrait screens. Topics are visible before scanning; scanning still tracks discoveries. Reset view and scan reuse the fitted city camera. Reduced motion applies the framing immediately.
+
+73 automated tests pass, including projection checks for every town in landscape and portrait camera views. Actual browser and phone verification remains pending.
+
 ## v1.11 · A simpler first visit
 
 The default screen now asks you to choose one topic and **Start lesson**. It opens a small model, one beginner explanation and **Previous / Next step** controls. The last step offers **Choose another topic**. Tap a component for a short explanation; View options holds reset and 2D/3D switching. The 3D engine waits until you start a lesson or open the complete city.

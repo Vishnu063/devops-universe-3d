@@ -31,10 +31,23 @@ test('Switching through all towns restores city positions and keeps all geometry
  const context={...built,routes:new T.Group(),particles:[],setDistrict(){},camera:new T.PerspectiveCamera(48,1.5,.03,800),controls:{target:new T.Vector3()},referenceMode:true,selected:'environment'};context.camera.position.set(200,180,200);
  for(const p of Object.values(townProfiles)){
   context.townProfile=p;context.selected=p.id;KubernetesWorld.prototype.setLearning.call(context,p.nodeIds,p.layout);KubernetesWorld.prototype.updateVisibility.call(context);KubernetesWorld.prototype.frameLearning.call(context);
-  assert.ok(context.flight.to.toArray().every(Number.isFinite));assert.ok(context.flight.to.distanceTo(context.flight.target)<400,p.id);
+  assert.ok(context.flight.to.toArray().every(Number.isFinite));assert.ok(context.flight.to.distanceTo(context.flight.target)<context.camera.far,p.id);
   for(const [id,pos]of Object.entries(p.layout||{}))assert.ok(built.objects.get(id).getWorldPosition(new T.Vector3()).distanceTo(new T.Vector3(...pos))<1e-7,id);
  }
  KubernetesWorld.prototype.setLearning.call(context,townProfiles.environment.nodeIds,null);for(const [id,pos]of original)assert.ok(built.objects.get(id).getWorldPosition(new T.Vector3()).distanceTo(pos)<1e-7,id);
  context.townProfile=townProfiles.environment;context.selected='environment';KubernetesWorld.prototype.updateVisibility.call(context);assert.ok(context.referenceOwn.has('git'));assert.ok(context.referenceOwn.has('docker-engine'));assert.ok(!context.referenceOwn.has('docker-health'));
  context.detail=true;KubernetesWorld.prototype.updateVisibility.call(context);assert.ok(context.referenceOwn.has('docker-health'));
+});
+
+
+test('Complete city framing keeps every town inside landscape and portrait camera views',()=>{
+ const built=buildWorldObjects();
+ for(const aspect of [2,1,.45]){
+  const ctx={...built,camera:new T.PerspectiveCamera(48,aspect,.03,800),controls:{target:new T.Vector3()},learningIds:new Set(townProfiles.environment.nodeIds),townProfile:townProfiles.environment};
+  KubernetesWorld.prototype.frameLearning.call(ctx);ctx.camera.position.copy(ctx.flight.to);ctx.camera.lookAt(ctx.flight.target);ctx.camera.updateMatrixWorld(true);
+  for(const n of worldNodes.filter(n=>n.district)){
+   const box=new T.Box3().setFromObject(built.objects.get(n.id));
+   for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]){const p=new T.Vector3(x,y,z).project(ctx.camera);assert.ok(Math.abs(p.x)<1&&Math.abs(p.y)<1&&p.z<1,n.id+' at '+aspect);}
+  }
+ }
 });

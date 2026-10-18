@@ -8,7 +8,7 @@ import {parseLearning,courseCheckpoint} from '../dist/learning-core.js';
 import {projects} from '../dist/projects.js';
 import {parseProgress,isComplete} from '../dist/core.js';
 class Element extends EventTarget {
-  constructor(tag='div'){super();this.tagName=tag;this.children=[];this.attributes={};this.dataset={};this.style={};this.hidden=false;this.disabled=false;this.value='';this._text='';this.className='';this.classList={add:(...s)=>{this.className=[...new Set([...this.className.split(' '),...s])].join(' ');},remove:s=>{this.className=this.className.split(' ').filter(x=>x!==s).join(' ');},toggle:(s,on)=>{if(on===undefined)on=!this.className.split(' ').includes(s);on?this.classList.add(s):this.classList.remove(s);return on;}};}
+  constructor(tag='div'){super();this.tagName=tag;this.children=[];this.attributes={};this.dataset={};this.style={};this.hidden=false;this.disabled=false;this.value='';this._text='';this.className='';this.classList={add:(...s)=>{this.className=[...new Set([...this.className.split(' '),...s])].join(' ');},remove:(...s)=>{this.className=this.className.split(' ').filter(x=>!s.includes(x)).join(' ');},toggle:(s,on)=>{if(on===undefined)on=!this.className.split(' ').includes(s);on?this.classList.add(s):this.classList.remove(s);return on;}};}
   append(...nodes){this.children.push(...nodes);}
   replaceChildren(...nodes){this.children=[...nodes];this._text='';}
   set textContent(v){this._text=String(v);this.children=[];}
@@ -261,6 +261,6 @@ test('Simple learning provides topic choice, bounded steps and an explicit route
   assert.ok(steps<100);assert.equal($('simple-finish').hidden,false);assert.ok($('simple-step-text').textContent.length>20);
   $('simple-finish').click();assert.equal($('simple-start').hidden,false);assert.equal($('simple-lesson').hidden,true);assert.ok($('page-world').className.includes('simple-idle'));
  }
- $('simple-explore').click();assert.ok(!$('page-world').className.split(' ').includes('simple-mode'));assert.equal($('simple-return').hidden,false);
+ $('simple-explore').click();assert.ok(!$('page-world').className.split(' ').includes('simple-mode'));assert.ok(!$('page-world').className.split(' ').includes('simple-idle'));assert.equal($('simple-return').hidden,false);
  $('simple-return').click();assert.ok($('page-world').className.includes('simple-mode'));assert.equal($('simple-start').hidden,false);
 });
