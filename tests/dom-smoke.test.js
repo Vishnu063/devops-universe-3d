@@ -115,3 +115,14 @@ test('Isometric asset styles cover all models and partial playback updates prese
  $('focus-step').click();assert.equal($('focus-step').attributes['aria-pressed'],'true');$('focus-step').click();assert.equal($('focus-step').attributes['aria-pressed'],'false');
  $('expand-model').click();assert.equal($('expand-model').attributes['aria-expanded'],'true');$('expand-model').click();assert.equal($('expand-model').attributes['aria-expanded'],'false');
 });
+
+test('The world text explorer selects tiny features, shows ancestry and explains all simulated repairs without WebGL',async()=>{
+ const {worldNodes,worldFlows,worldFailures}=await import('../dist/world-data.js');
+ assert.equal($('world-tree').children.length,worldNodes.length);
+ $('world-search').value='readiness';$('world-search').dispatchEvent(new Event('input'));
+ assert.ok($('world-tree').children.length>0);const row=$('world-tree').children.find(b=>b.textContent.includes('Readiness probe'));row.click();assert.equal($('world-node-title').textContent,'Readiness probe');assert.ok($('world-breadcrumb').textContent.includes('Application Pod A'));
+ $('world-parent').click();assert.equal($('world-node-title').textContent,'Application Pod A');
+ for(const [id,failure]of Object.entries(worldFailures)){$('world-failure').value=id;$('world-inject').click();assert.equal($('world-next').disabled,true);assert.equal($('world-flow').disabled,true);$('world-step-list').children.at(-1).querySelectorAll('button')[0].click();assert.match($('world-step-counter').textContent,new RegExp(`Step ${failure.blockedStep+1} of`));const wrong=(failure.correct+1)%failure.options.length;$('world-repair-options').children[wrong].click();assert.match($('world-repair-feedback').textContent,/Try another/);$('world-repair-options').children[failure.correct].click();assert.match($('world-repair-feedback').textContent,/Recovered in this simulation/);assert.equal($('world-flow').disabled,false);}
+ for(const id of Object.keys(worldFlows)){$('world-flow').value=id;$('world-flow').dispatchEvent(new Event('change'));for(let i=1;i<worldFlows[id].steps.length;i++)$('world-next').click();assert.equal($('world-next').disabled,true);}
+ $('world-help').click();assert.equal($('world-help-panel').hidden,false);$('world-expand').click();assert.equal($('world-expand').attributes['aria-expanded'],'true');$('world-expand').click();
+});

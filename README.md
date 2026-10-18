@@ -30,6 +30,30 @@ Open **http://localhost:8080**. No npm installation is required. Use an HTTP ser
 
 The separate owner-private hosted site is [DevOps Universe 3D](https://devops-universe-3d.vishnukushwaha63.chatgpt.site). Repository pushes do not automatically update that hosted copy.
 
+## Explore the real 3D Kubernetes world
+
+**[Enter the Kubernetes world →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=kubernetes)** (owner-private hosted site)
+
+[![Geometry-derived preview of the nested Kubernetes world](docs/previews/kubernetes-world.png)](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=kubernetes)
+
+*Preview derived from the actual 3D mesh geometry; this is not a browser screenshot. The interactive WebGL appearance still needs real-browser verification.*
+
+The dedicated **3D Kubernetes** view uses a perspective camera and a locally hosted Three.js engine. It is separate from the twelve lightweight isometric overview models.
+
+- **72 modeled components**, including **20 tiny configuration features**. Explore environment → cluster → control plane/worker → Pod → container and configuration details.
+- Rotate **horizontally and vertically**, pan, zoom, use labeled camera buttons or arrow keys on the focused canvas, and reset to Overview.
+- Select a mesh, label, hierarchy item or search result to fly closer. Ancestor breadcrumbs and Up one layer help you get back out.
+- Tiny details retain small geometry and reveal with proximity, direct selection or the explicit detail switch. Labels are filtered to reduce crowding.
+- Exploded view separates nested layers vertically. A clickable minimap shows the camera focus position.
+- Four separate flows provide **40 explained steps**: user request/response, delivery/startup, networking mechanisms and operations/recovery.
+- Three simulated failures cover missing environment configuration, a Service selector mismatch and denied registry access, with evidence and explained repairs.
+- Scan world sweeps an illustrative reveal plane over the modeled environment. It **does not discover or scan real infrastructure**.
+- The searchable text hierarchy, explanations, flow steps and failure exercises remain available if WebGL2 cannot start. The 3D world requires browser/device graphics support.
+
+The world represents one bounded example, **not every Kubernetes feature**. Its scope panel lists included concepts and exclusions. Logical API resources, policy relationships and Pod boundaries are distinguished from physical machines and literal TCP forwarding hops. Ordinary user HTTP traffic does not pass through the control plane.
+
+The engine is bundled locally (Three.js 0.186.1, MIT; license in `dist/vendor/THREE-LICENSE.txt`) and is loaded only when this world is opened. No CDN, paid API, inference model or remote GPU service is used. Browser graphics hardware may be used for WebGL rendering.
+
 ## Choose a topic and learn at your pace
 
 The home page opens **Learn by topic**. Choose any of the 30 topics in the dropdown, or search by skill or tool. Prerequisites are linked and a dependency-ordered roadmap is available in **My learning path**. Topics remain open: you do not have to finish another course to inspect one you need now.
@@ -114,7 +138,7 @@ The supplied `ci-example.yml` runs app tests, builds, smoke-tests and cleans up.
 - Controls have text labels; a complete ordered text journey accompanies the canvas; 2D and reduced-motion options are supported.
 - Responsive layouts are implemented for phone, tablet and desktop sizes. Actual device/browser visual and assistive-technology verification remains outstanding.
 - Optional speech uses browser/OS voices. Whether a voice uses a local or remote service depends on the browser/OS.
-- No analytics, externally loaded fonts, CDN libraries or AI inference requests are included. Official reference links leave the site when selected.
+- No analytics, externally loaded fonts, runtime CDN libraries or AI inference requests are included. Official reference links leave the site when selected.
 - Record sanitized observations without secrets or private customer data.
 
 ## Validation and honest limits
@@ -126,11 +150,13 @@ npm run check
 npm test
 ```
 
-The current suite has **26 Node test cases**, including one that runs **four real Python HTTP/database integration tests**. It covers all topic selections, lesson stages, assessment attempts, minimum evidence handling, progress persistence/reset, prerequisites, curriculum/model references, network deny conditions, connection picking, response ports, corrupt-storage input and renderer coordinate checks at multiple widths. DOM tests use a minimal fixture, not a real browser.
+The current suite has **35 Node test cases**, including one that runs **four real Python HTTP/database integration tests**. It covers all topic selections, lesson stages, assessment attempts, minimum evidence handling, progress persistence/reset, prerequisites, curriculum/model references, network deny conditions, connection picking, response ports, corrupt-storage input and renderer coordinate checks at multiple widths. DOM tests use a minimal fixture, not a real browser.
 
 Verified locally: JavaScript syntax; these automated tests; the supplied API’s health, product read, metrics and 404 behavior over loopback HTTP.
 
-Not verified in this environment: real browser layout/interaction, phone touch behavior, screen reader output, OS speech, clipboard permissions, Docker build/run, kind deployment/rollback, Terraform/Ansible execution or a real Trivy scan. Instructions for these are provided; they must not be described as successfully executed until observed.
+The expanded tests also check real Three.js scene-graph transforms, mesh bounds, vertical/horizontal camera math, model detail visibility, flow separation and the world text explorer. These tests do not create a real WebGL context.
+
+Not verified in this environment: WebGL rendering or real browser layout/interaction, phone touch behavior, screen reader output, OS speech, clipboard permissions, Docker build/run, kind deployment/rollback, Terraform/Ansible execution or a real Trivy scan. Instructions for these are provided; they must not be described as successfully executed until observed.
 
 This release offers structured **core DevOps coverage and guided practice**, not complete mastery of every vendor product or advanced specialization. Further production experience, deeper tool-specific labs and specialist study remain necessary. Lesson labels indicate increasing perspective, not independently demonstrated seniority.
 
@@ -160,6 +186,11 @@ dist/
   projects/learning-app/  Real demo API, tests, Dockerfile and teaching configs
   model.js                Projected isometric scene and traffic renderer
   model-assets.js         Detailed code-native illustrated component geometry
+  world-data.js           Nested Kubernetes catalog, flows and failure scenarios
+  world-core.js           Hierarchy, coordinates, detail visibility and flow gates
+  world-scene.js          Perspective 3D scene, camera, picking and geometry
+  world-ui.js             Explorer, search, inspector, flows and fallback UI
+  vendor/                 Lazy-loaded local Three.js bundle and MIT license
   core.js / app.js         Model progress and site interactions
 tests/                    Content, state, DOM, renderer and API integration checks
 .github/workflows/        Checks and optional Pages deployment
