@@ -30,6 +30,26 @@ Open **http://localhost:8080**. No npm installation is required. Use an HTTP ser
 
 The separate owner-private hosted site is [DevOps Universe 3D](https://devops-universe-3d.vishnukushwaha63.chatgpt.site). Repository pushes do not automatically update that hosted copy.
 
+## Connected DevOps city (v1.6)
+
+**[Open the complete city →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=city)** (existing owner-private website)
+
+[![Geometry-derived overview of the connected DevOps towns](docs/previews/devops-connected-city.png)](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=city)
+
+*Generated from the actual Three.js meshes and connections. This is an illustration, not a browser screenshot or a live infrastructure scan.*
+
+The same page and canvas now contain **13 towns**: Kubernetes, Git, Docker, Jenkins/CI/CD, Ansible, AWS, networking, security, Terraform, data/messaging, observability, reliability and Linux. The towns were implemented in that sequence around the retained Kubernetes architecture. Use **Complete city** for the overview, then select a town platform or use the topic picker to focus on its resources. **Reset view** keeps the selected town. Nearby systems shown in a focused model are labeled **Linked town** and sit outside its platform.
+
+- Resource models include layered town platforms, Git branch/snapshot objects, Docker engine/container/volume objects, build conveyors, agent racks, configuration documents, routing antennas, security locks, database stacks and monitoring desks.
+- Solid connections show explicitly configured network examples. Every new network exchange includes the initiator, protocol, server port and reverse response; request and response arcs use opposite sides so their arrows remain distinguishable.
+- Dashed connections explain local operations, configuration, ownership or storage references. Staging a file, reading inventory, mounting a volume and approving a plan do not acquire fictional TCP ports.
+- DNS answers precede a separate web connection. The networking example terminates public HTTPS at a load balancer, with a separate private HTTP :80 ingress connection. Terraform controls cloud APIs; Prometheus initiates scrapes; worker runtimes initiate registry pulls.
+- Select an arrow for its explanation and configured transport. Filter connections, pause illustrative traffic, rotate vertically/horizontally, pan, zoom or enter full screen. Small features remain small and reveal on approach, selection or **Reveal tiny features**.
+
+Current coverage is **190 elements, 32 small features, 36 flows and 323 explained steps**, with all 30 existing course links retained. The city is a bounded teaching model, not every vendor feature or every possible production topology. Ports are labeled example configurations. No live network, cloud account or cluster is connected. Browser/WebGL visuals, mobile gestures and performance still need real-device verification; automated geometry, topology and DOM checks pass.
+
+Reference documentation: [Prometheus scrape model](https://prometheus.io/docs/introduction/first_steps/), [AWS stateful security groups and stateless ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/nacl-examples.html), [Terraform providers](https://developer.hashicorp.com/terraform/language/providers), [Docker](https://docs.docker.com/), [Jenkins](https://www.jenkins.io/doc/), [Ansible](https://docs.ansible.com/), [Git](https://git-scm.com/docs).
+
 ## Kubernetes: explore the connected model (v1.5)
 
 **[Open the existing Kubernetes view →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=kubernetes)** (owner-private)

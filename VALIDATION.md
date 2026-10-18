@@ -79,3 +79,15 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 - DOM checks cover the complete-model default, folded explanations, component panel toggle and model-motion switch, alongside the existing lesson, full-screen and failure-gating checks.
 - A geometry-derived overview was rendered and inspected. It is not a browser screenshot; it does not validate browser shaders, annotation collision placement or phone interaction. The supported browser-control skill remains unavailable.
 - No Kubernetes cluster, Git provider pipeline or registry was connected; all traffic, status and topology remain illustrative.
+
+## Connected town models (version 1.6)
+
+- 49 automated checks pass. Inventory: 190 unique elements, 32 minor features, 13 towns, 36 flows and 323 steps. All 30 course links remain reachable.
+- Git, Docker, Jenkins and Ansible were implemented first, followed by AWS, networking, security, Terraform, data, observability, reliability and Linux. The accepted Kubernetes layout remains a separate focused profile in the same city/canvas.
+- Every new network exchange is checked for exactly paired request/response endpoints, preserved initiator, configured protocol and valid server port. Local/configuration/storage references have no transport or exchange ID.
+- Tests exercise Unix-socket versus network boundaries, Ansible-initiated SSH, Prometheus-initiated scraping, DNS response separation, cloud provider API direction and resource ownership.
+- Actual Three.js objects are switched through every town profile, checked against world-space layouts, restored to city coordinates and checked for finite camera fit. City silhouettes and tiny-feature reveal are verified.
+- DOM fixtures traverse every town, mirrored topic picker, reset-in-town, city flow stepping without unintended navigation, and selecting a town from the complete city.
+- The scan radius now follows the actual expanded city footprint rather than a fixed smaller-city radius. Existing scan completion/reduced-motion tests still pass.
+- A geometry-derived city overview was rendered and inspected. It does not validate WebGL, real browser layout, accessibility, full-screen permissions, phone gestures or frame rate. Supported browser control remains unavailable; no substitute browser was installed or started.
+- Protocols/ports are explicit illustrative configurations, not universal defaults. No live DevOps service was provisioned, queried or scanned.

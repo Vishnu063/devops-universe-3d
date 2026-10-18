@@ -138,7 +138,7 @@ test('City topic isolation, teaching HUD, replay and links to every course work 
   for(const b of $('city-lessons').children)covered.add(b.textContent.split(' →')[0]);
  }
  assert.equal(covered.size,30);
- $('world-home').click();assert.equal($('city-district').value,'all');assert.equal($('world-tree').children.length,worldNodes.length);
+ $('world-city').click();assert.equal($('city-district').value,'all');assert.equal($('world-tree').children.length,worldNodes.length);
  $('city-flow-select').value='city-network';$('city-flow-select').dispatchEvent(new Event('change'));
  assert.match($('city-step-title').textContent,/address/);$('city-forward').click();assert.match($('city-step-count').textContent,/Step 2 of/);
  $('city-restart').click();assert.match($('city-step-count').textContent,/Step 1 of/);$('city-inspect').click();assert.equal($('world-node-title').textContent,'Public DNS');
@@ -173,7 +173,7 @@ test('Watch-first Kubernetes lessons isolate concepts, preserve context across s
  }
  $('k8s-lesson').value='0';$('k8s-lesson').dispatchEvent(new Event('change'));$('k8s-next-lesson').click();assert.equal($('k8s-lesson').value,'1');
  $('k8s-town').click();assert.equal($('k8s-step-strip').hidden,true);assert.ok($('world-tree').children.length>12);assert.ok(!$('world-tree').textContent.includes('Amazon EC2'));
- $('k8s-city').click();assert.equal($('world-tree').children.length,177);
+ $('k8s-city').click();assert.equal($('world-tree').children.length,190);
  $('k8s-lesson').value='0';$('k8s-lesson').dispatchEvent(new Event('change'));const app=$('world-tree').children.find(b=>b.textContent.includes('App container A'));app.click();assert.match($('k8s-yaml').textContent,/containerPort: 8080/);assert.match($('k8s-example-logs').textContent,/Example log/);
 });
 
@@ -183,4 +183,16 @@ test('The same Kubernetes workspace opens the complete model with folded explana
  $('k8s-animate').click();assert.equal($('k8s-animate').attributes['aria-pressed'],'false');$('k8s-animate').click();assert.equal($('k8s-animate').attributes['aria-pressed'],'true');
  assert.ok($('world-tree').textContent.includes('Worker node C'));assert.ok($('world-tree').textContent.includes('Container registry'));assert.ok(!$('world-tree').textContent.includes('Amazon EC2'));
  assert.match(html,/<details class="world-flow-panel" id="world-flow-details">/);assert.equal([...html.matchAll(/id="world-canvas"/g)].length,1);
+});
+
+test('Each new town opens its model in the same workspace and city steps preserve city context',async()=>{
+ const {townProfiles}=await import('../dist/town-models.js');const {worldFlows}=await import('../dist/world-data.js');
+ for(const p of Object.values(townProfiles).filter(p=>p.id!=='environment')){
+  $('city-topic-select').value=p.id;$('city-topic-select').dispatchEvent(new Event('change'));
+  assert.equal($('world-flow').value,p.flowId);assert.equal($('world-town-title').textContent,p.label);assert.equal($('city-district').value,p.id);assert.equal($('world-tree').children.length,p.nodeIds.length);
+  $('world-home').click();assert.equal($('city-district').value,p.id);
+ }
+ $('world-city').click();const p=townProfiles.environment;assert.equal($('world-flow').value,p.flowId);
+ for(let i=1;i<worldFlows[p.flowId].steps.length;i++){$('world-next').click();assert.equal($('world-flow').value,p.flowId);assert.equal($('city-topic-select').value,'all');assert.match($('world-step-counter').textContent,new RegExp(`Step ${i+1} of`));}
+ $('world-tree').children.find(b=>b.textContent.includes('Docker & registry')).click();assert.equal($('world-flow').value,townProfiles['docker-district'].flowId);
 });
