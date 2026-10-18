@@ -69,3 +69,13 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 - The DOM fixture exercises all seven lessons, individual steps, optional explained checks, next-lesson navigation, full-town/city exits and example YAML/log notes.
 - Existing evidence-gated simulated recovery, topic learning and full-screen mock checks remain in the test suite.
 - No real Kubernetes commands or remote services were executed. Browser/WebGL shading, label placement, touch interaction and device performance remain unverified because the supported browser-control skill is unavailable.
+
+## Connected Kubernetes model in the existing view (version 1.5)
+
+- The existing world canvas and page are retained; no additional tab or rendering surface was introduced. The connected model replaces the small-lesson default.
+- Current inventory: 177 elements, 30 minor features, 23 architecture journeys and 181 explained steps. The added third worker, Pod and container use the same validated hierarchy.
+- New tests verify CI image push, worker pull request, registry image-layer response, separate control/traffic relationships and per-channel route filtering.
+- Actual Three.js mesh geometry is checked for finite bounds. Control-plane and detail visibility, static control references, route geometry and illustrative traffic beads are exercised without initializing WebGL.
+- DOM checks cover the complete-model default, folded explanations, component panel toggle and model-motion switch, alongside the existing lesson, full-screen and failure-gating checks.
+- A geometry-derived overview was rendered and inspected. It is not a browser screenshot; it does not validate browser shaders, annotation collision placement or phone interaction. The supported browser-control skill remains unavailable.
+- No Kubernetes cluster, Git provider pipeline or registry was connected; all traffic, status and topology remain illustrative.

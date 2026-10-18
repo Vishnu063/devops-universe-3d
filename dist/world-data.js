@@ -1,3 +1,4 @@
+import {installK8sModel} from './k8s-model.js';
 import {installK8sFlows} from './k8s-learning.js';
 import {extendCity} from './city-data.js';
 // Explicit educational architecture. Coordinates and statuses are synthetic, not a live scan.
@@ -145,3 +146,5 @@ export const worldScope={included:['Environment, control plane, two worker nodes
 extendCity(worldNodes,worldFlows,worldScope,part);
 
 installK8sFlows(worldFlows);
+
+installK8sModel(worldNodes,worldFlows);
