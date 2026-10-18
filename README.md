@@ -30,6 +30,24 @@ Open **http://localhost:8080**. No npm installation is required. Use an HTTP ser
 
 The separate owner-private hosted site is [DevOps Universe 3D](https://devops-universe-3d.vishnukushwaha63.chatgpt.site). Repository pushes do not automatically update that hosted copy.
 
+## Build your own network (v1.9)
+
+On the [city homepage](https://devops-universe-3d.vishnukushwaha63.chatgpt.site), choose **Build my network**. The editor uses the same 3D canvas, camera and 2D fallback; it does not open a new website tab or connect to real infrastructure.
+
+1. Start with **Client → firewall → app**, the **Load balancer example**, or **Start empty**.
+2. Add/select client, router, firewall, TCP proxy/load balancer, application, database or DNS devices. Set a name, IPv4 interface CIDRs, gateway, endpoint listener and X/Z placement. The form supports connected/static/default routing, firewall allow rules and an explicit proxy backend.
+3. Connect two neighboring devices. A line represents bidirectional adjacency, not automatic routing or permission. Multiple interfaces are needed when a forwarding device joins subnets.
+4. Pick source/destination endpoints and the transport/listener port. **Trace request and return**, then move through the steps to inspect packet tuples and the first failing boundary. Router/firewall hops do not become extra application connections; a proxy creates a distinct backend exchange.
+5. Change the observed cause, then re-run. The trace detects missing next-hop links, unreachable gateways, missing routes, loops, default-deny rules, listener mismatch and denied/missing reverse paths.
+
+Designs save in this browser. **Export JSON** downloads a portable copy and displays the same JSON for copying. Imports are validated before replacing the design. **Undo** restores up to twenty design changes, including a clear/delete. Removing a device also removes its adjacency links and clears references to it as a proxy backend. Editing a design invalidates the old trace until you run it again.
+
+The model supports up to **24 devices / 48 links**, IPv4 prefixes **/8–/30**, at most four interfaces and twelve routes/allow rules per device. Only the destination’s first interface is targeted. Example client ports start at 49152; they illustrate return-port direction rather than the actual allocation of a real operating system. Stateful return means the accepted modeled exchange; it does not emulate timeouts or a production connection tracker. A stateless return needs an explicit allow rule for the shown client destination port.
+
+This is a bounded teaching simulator. It does **not** emulate ARP, switching fabric, NAT, Internet/dynamic routing, asymmetric return paths, TCP handshakes/retransmissions, TLS/certificates, identity, real DNS records or application health. DNS is a separate transport endpoint. The proxy example does not prove TLS works. A successful trace means only the modeled checks passed. Physical/browser device performance remains unverified.
+
+**68 automated checks pass**, including model validation, routing/policy failures, proxy session separation, reverse ports, imports/undo and actual custom mesh geometry. Existing city content remains 190 elements, 13 towns, 30 topic landmarks and 67 predefined flows; custom designs are separate browser-local data.
+
 ## City-first exploration and beginner learning (v1.8)
 
 **[Open the city homepage →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site)** (owner-private)

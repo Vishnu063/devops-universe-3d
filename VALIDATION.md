@@ -113,3 +113,13 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 - The request-lab and retained learning/failure tests still pass. Full-screen card containment is checked structurally; real full-screen usability remains unverified.
 - Repository metadata confirmed Pages is not enabled. The workflow supports an explicit manual public deployment input after repository setup; public deployment was not attempted without that required setting. The existing Site remains owner-private.
 - Supported browser control remains unavailable. No substitute browser, preview server or browser-control path was used. Mock DOM/geometry checks do not prove live WebGL rendering, visual smoothness, label readability, accessibility or phone performance.
+
+## Custom network learning sandbox (version 1.9)
+
+- 68 automated checks pass. The custom network is separate from the fixed city inventory and uses the same renderer/canvas and the existing 2D host.
+- Pure tests validate JSON limits, unique IDs/IPs, host-versus-network addressing, prefix/port limits, malformed rules/routes, duplicate links and deletion cleanup.
+- Trace tests exercise explicit default gateways, connected/static next hops, missing links/routes, loop/transit rejection, default-deny filtering, listener mismatch and reverse route/rule checks. Packet tuples keep their end-to-end endpoints through routers/firewalls; server/client ports reverse correctly.
+- The proxy example creates distinct front/backend exchanges and rejects forwarding-device backends. UDP DNS examples stay separate from HTTP forwarding. Proxy transport is limited to TCP.
+- DOM tests build, edit, deny, repair, export, clear, import, reject invalid JSON, undo and trace proxy examples without changing the existing city or adding a canvas.
+- Actual Three.js meshes are built with finite bounds; entering/leaving the custom scene hides/restores the fixed city and disposes custom scene geometry/materials. Real WebGL, hit-testing, layout, full-screen and phone usability remain unverified because supported browser control is unavailable.
+- No actual packets, sockets, cloud resources, application workloads or infrastructure configuration are created or tested.

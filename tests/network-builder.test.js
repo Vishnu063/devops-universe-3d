@@ -1,0 +1,31 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import * as T from '../dist/vendor/three-engine.js';
+import {KubernetesWorld} from '../dist/world-scene.js';
+import {exampleNetwork,blankNetwork,newDevice,validateNetwork,parseDesign,parseRules,parseRoutes,removeDevice,traceNetwork,ipNumber,cidrInfo} from '../dist/network-builder-core.js';
+const request={from:'n1',to:'n3',port:8080,protocol:'TCP'};
+test('Network designs validate host addressing, IDs, links and imports without accepting forged structures',()=>{
+ const net=exampleNetwork();assert.equal(parseDesign(JSON.stringify(net)).nodes.length,3);assert.deepEqual(validateNetwork(blankNetwork()),blankNetwork());assert.equal(ipNumber('10.0.1.1'),167772417);assert.equal(cidrInfo('10.0.1.1/24').base,167772416);
+ for(const bad of ['256.0.0.1','10.0.1','01.0.0.1'])assert.throws(()=>ipNumber(bad));for(const bad of ['10.0.1.1/99','10.0.1.1/0'])assert.throws(()=>cidrInfo(bad));assert.throws(()=>parseDesign('bad'));assert.throws(()=>parseDesign('x'.repeat(65537)));
+ const duplicate=structuredClone(net);duplicate.nodes[2].interfaces=duplicate.nodes[0].interfaces;assert.throws(()=>validateNetwork(duplicate),/same IPv4/);assert.throws(()=>validateNetwork({...net,links:[...net.links,net.links[0]]}),/already exists/);assert.throws(()=>validateNetwork({...net,nodes:[...net.nodes,{...newDevice('n4'),interfaces:['10.0.3.0/24']}]}),/host address/);
+ assert.equal(removeDevice(net,'n2').links.length,0);assert.equal(parseRules('TCP any 10.0.1.0/24')[0].port,null);assert.equal(parseRoutes('10.0.3.0/24 via 10.0.2.2')[0].gateway,'10.0.2.2');assert.throws(()=>parseRules('allow everything'));assert.throws(()=>parseRoutes('please route'));
+});
+test('A request follows declared gateways and connected subnets; responses reverse server/client ports',()=>{
+ const net=exampleNetwork(),copy=JSON.stringify(net),r=traceNetwork(net,request);assert.equal(r.ok,true);assert.equal(r.steps.length,4);assert.equal(JSON.stringify(net),copy);assert.match(r.steps[0].packet,/10.0.1.10:49152 → 10.0.2.10:8080/);assert.match(r.steps.at(-1).packet,/10.0.2.10:8080 → 10.0.1.10:49152/);assert.ok(r.steps.filter(s=>s.phase==='request').every(s=>s.initiator==='n1'));
+ const missing=structuredClone(net);missing.nodes[0].gateway='';assert.match(traceNetwork(missing,request).summary,/No connected route/);const broken=structuredClone(net);broken.links.pop();assert.match(traceNetwork(broken,request).summary,/No drawn link/);const noReturn=structuredClone(net);noReturn.nodes[2].gateway='';assert.match(traceNetwork(noReturn,request).summary,/Return route failed/);
+});
+test('Default-deny, listener mismatch and stateless return rules stop at their actual boundary',()=>{
+ const net=exampleNetwork();net.nodes[1].rules=[];assert.equal(traceNetwork(net,request).ok,false);assert.match(traceNetwork(net,request).summary,/Default-deny/);net.nodes[1].rules=[{protocol:'TCP',port:8080,source:'10.0.1.0/24'}];net.nodes[2].port=80;assert.match(traceNetwork(net,request).summary,/Listener mismatch/);net.nodes[2].port=8080;net.nodes[1].stateful=false;assert.match(traceNetwork(net,request).summary,/Stateless return denied/);net.nodes[1].rules.push({protocol:'TCP',port:49152,source:'10.0.2.0/24'});assert.equal(traceNetwork(net,request).ok,true);
+});
+test('Proxy backends create separate exchanges; DNS is not treated as an HTTP hop',()=>{
+ const net=exampleNetwork(true),r=traceNetwork(net,{...request,to:'n4',port:443});assert.equal(r.ok,true);assert.ok(r.steps.some(s=>s.phase==='proxy'));assert.ok(r.steps.some(s=>s.initiator==='n4'&&s.serverPort===8080));assert.ok(r.steps.some(s=>s.initiator==='n1'&&s.serverPort===443));const invalid=structuredClone(net);invalid.nodes[3].backend='n2';assert.throws(()=>validateNetwork(invalid),/backend/);net.nodes[3].backend='';assert.match(traceNetwork(net,{...request,to:'n4',port:443}).summary,/no backend/);
+ const dns=exampleNetwork();dns.nodes[2].type='dns';dns.nodes[2].protocol='UDP';dns.nodes[2].port=53;dns.nodes[1].rules=[{protocol:'UDP',port:53,source:'10.0.1.0/24'}];assert.match(traceNetwork(dns,{...request,protocol:'UDP',port:53}).summary,/does not forward/);assert.throws(()=>traceNetwork(dns,{...request,to:'n2'}),/endpoint devices/);
+});
+test('Static next hops detect forwarding loops instead of inventing a working path',()=>{
+ const net=exampleNetwork();net.nodes[1].interfaces=['10.0.1.1/24','10.0.9.1/24'];net.nodes[1].routes=[{cidr:'10.0.2.0/24',gateway:'10.0.1.10'}];assert.match(traceNetwork(net,request).summary,/endpoint, not a transit router/);
+ const multi=exampleNetwork();multi.nodes.push({...newDevice('n4','router'),interfaces:['10.0.2.2/24','10.0.3.1/24'],gateway:'',x:8,z:4,routes:[{cidr:'10.0.1.0/24',gateway:'10.0.2.1'}]});multi.nodes[2].interfaces=['10.0.3.10/24'];multi.nodes[2].gateway='10.0.3.1';multi.nodes[1].routes=[{cidr:'10.0.3.0/24',gateway:'10.0.2.2'}];multi.links=[{from:'n1',to:'n2'},{from:'n2',to:'n4'},{from:'n4',to:'n3'}];assert.equal(traceNetwork(multi,request).ok,true);
+});
+test('Custom Three.js geometry uses finite meshes in the same renderer and disposes/restores its scene',()=>{
+ const saved=globalThis.document;globalThis.document={createElement:()=>({addEventListener(){},remove(){}})};const ctx={scene:new T.Scene(),root:new T.Group(),routes:new T.Group(),selection:new T.Group(),scanPlane:{visible:false},particles:[],buttons:new Map(),labelLayer:{append(){}},camera:new T.PerspectiveCamera(48,1.5,.03,800),controls:{target:new T.Vector3(),update(){}},clearBuilder:KubernetesWorld.prototype.clearBuilder,frameBuilder:KubernetesWorld.prototype.frameBuilder};ctx.camera.position.set(30,30,40);
+ try{KubernetesWorld.prototype.setBuilderNetwork.call(ctx,exampleNetwork(true),'n1',traceNetwork(exampleNetwork(true),{...request,to:'n4',port:443}).steps[0]);assert.equal(ctx.builderObjects.size,4);assert.ok(ctx.builderMeshes.length>12);assert.equal(ctx.root.visible,false);assert.ok(ctx.flight.to.toArray().every(Number.isFinite));for(const m of ctx.builderMeshes){m.geometry.computeBoundingSphere();assert.ok(Number.isFinite(m.geometry.boundingSphere.radius));}KubernetesWorld.prototype.closeBuilder.call(ctx);assert.equal(ctx.root.visible,true);assert.equal(ctx.builderMode,false);assert.equal(ctx.builderGroup,null);}finally{globalThis.document=saved;}
+});
