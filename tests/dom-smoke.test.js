@@ -247,3 +247,20 @@ test('The scan-first menu, one-time hint, beginner-first card and display contro
  $('city-quality').value='low';$('city-quality').dispatchEvent(new Event('change'));$('city-reduced-motion').checked=true;$('city-reduced-motion').dispatchEvent(new Event('change'));assert.ok(documentMock.body.className.includes('reduce-motion'));const prefs=JSON.parse(storage.get('devops-interface-comfort-v1'));assert.equal(prefs.quality,'low');assert.equal(prefs.reducedMotion,true);assert.equal(prefs.introSeen,true);
  $('city-topic-search').value='Prometheus';$('city-topic-search').dispatchEvent(new Event('input'));$('city-topic-catalog').children[0].click();const lessons=$('city-discovery-lessons');assert.equal(lessons.children.length,2);assert.equal(lessons.children[0].tagName,'section');assert.match(lessons.children[0].textContent,/Start here/);assert.equal(lessons.children[1].tagName,'details');assert.match(lessons.children[1].textContent,/Go deeper/);assert.match($('city-next-hint').textContent,/All topics|Security|Pick|Start/);$('city-about-open').click();assert.equal($('city-about').open,true);$('city-quality').value='normal';$('city-quality').dispatchEvent(new Event('change'));$('city-reduced-motion').checked=false;$('city-reduced-motion').dispatchEvent(new Event('change'));
 });
+
+
+test('Simple learning provides topic choice, bounded steps and an explicit route to the complete city',()=>{
+ assert.match(html,/id="page-world" class="simple-mode simple-idle"/);
+ $('page-world').className='simple-mode simple-idle';
+ assert.equal($('simple-topic').children.length,30);
+ for(const c of courses){
+  $('simple-topic').value=c.id;$('simple-topic').dispatchEvent(new Event('change'));
+  assert.equal($('simple-topic-purpose').textContent,c.purpose);
+  $('simple-begin').click();assert.equal($('simple-start').hidden,true);assert.equal($('simple-lesson').hidden,false);assert.equal($('simple-lesson-name').textContent,c.title);assert.equal($('simple-idea').textContent,c.lessons[0].explanation);assert.equal($('simple-prev').disabled,true);
+  let steps=0;while(!$('simple-next').hidden&&steps++<100)$('simple-next').click();
+  assert.ok(steps<100);assert.equal($('simple-finish').hidden,false);assert.ok($('simple-step-text').textContent.length>20);
+  $('simple-finish').click();assert.equal($('simple-start').hidden,false);assert.equal($('simple-lesson').hidden,true);assert.ok($('page-world').className.includes('simple-idle'));
+ }
+ $('simple-explore').click();assert.ok(!$('page-world').className.split(' ').includes('simple-mode'));assert.equal($('simple-return').hidden,false);
+ $('simple-return').click();assert.ok($('page-world').className.includes('simple-mode'));assert.equal($('simple-start').hidden,false);
+});

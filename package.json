@@ -1,6 +1,6 @@
 {
   "name": "devops-universe-3d",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "private": true,
   "type": "module",
   "description": "Explore DevOps through interactive 3D architecture and guided packet journeys",

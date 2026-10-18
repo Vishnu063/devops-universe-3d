@@ -133,3 +133,6 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 - The scene has no bloom pipeline. Instanced rendering was not added. Low quality uses lower resolution, frame-rate cap, distant detail reduction and simpler route decoration; no phone benchmark or improvement percentage is claimed.
 - Real-browser/WebGL layout, keyboard/screen-reader experience, full-screen behavior, readability and device performance remain unverified because supported browser control is unavailable. No browser was installed or alternate control path used.
 - Three-person usability testing is explicitly pending. docs/USABILITY-TEST.md contains unfilled observation slots and tasks, not invented participant results.
+
+## v1.11 — simple first visit
+72 automated checks pass. The simple-flow check covers all 30 topics, first/last-step controls, changing topics and switching to/from the complete city. Syntax and whitespace checks pass. Real browser, touch, screen reader and participant testing remain pending.

@@ -1,3 +1,11 @@
+## v1.11 · A simpler first visit
+
+The default screen now asks you to choose one topic and **Start lesson**. It opens a small model, one beginner explanation and **Previous / Next step** controls. The last step offers **Choose another topic**. Tap a component for a short explanation; View options holds reset and 2D/3D switching. The 3D engine waits until you start a lesson or open the complete city.
+
+**Explore complete city** opens the existing city, scanning, advanced tools and network builder. **Back to simple learning** returns to the topic chooser. No lesson content or city towns were removed. Explicit `?world=kubernetes` links still open Kubernetes directly.
+
+Validation: 72 automated tests pass, including walking every topic through its simple steps and returning to the topic chooser. Browser layout, WebGL, phones and participant usability testing remain pending; these checks do not establish first-time user success.
+
 # DevOps Universe 3D
 
 **Choose a topic. Follow the flow. Practice and explain it.**
