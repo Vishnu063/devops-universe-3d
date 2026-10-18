@@ -146,3 +146,17 @@ test('City topic isolation, teaching HUD, replay and links to every course work 
  $('city-district').value='observe-district';$('city-district').dispatchEvent(new Event('change'));
  const lesson=$('city-lessons').children.find(b=>b.textContent.startsWith('Observability'));lesson.click();assert.equal($('course-name').textContent,'Observability');
 });
+
+test('Full screen supports native entry/exit and page fallback with Escape cleanup',async()=>{
+ const settle=()=>new Promise(resolve=>setTimeout(resolve,0));
+ const viewport=$('city-viewport');documentMock.body.style.overflow='auto';
+ viewport.requestFullscreen=async()=>{documentMock.fullscreenElement=viewport;documentMock.dispatchEvent(new Event('fullscreenchange'));};
+ documentMock.exitFullscreen=async()=>{documentMock.fullscreenElement=null;documentMock.dispatchEvent(new Event('fullscreenchange'));};
+ $('city-fullscreen').click();await settle();assert.equal(documentMock.fullscreenElement,viewport);assert.equal($('city-fullscreen').attributes['aria-pressed'],'true');
+ $('city-fullscreen').click();await settle();assert.equal(documentMock.fullscreenElement,null);assert.equal($('city-fullscreen').attributes['aria-pressed'],'false');
+ viewport.requestFullscreen=async()=>{throw new Error('Unsupported / blocked');};
+ $('city-fullscreen').click();await settle();assert.ok(viewport.className.includes('viewport-fullscreen'));assert.equal(documentMock.body.style.overflow,'hidden');
+ const escape=new Event('keydown');escape.key='Escape';documentMock.dispatchEvent(escape);assert.ok(!viewport.className.includes('viewport-fullscreen'));assert.equal(documentMock.body.style.overflow,'auto');
+ delete viewport.requestFullscreen;delete documentMock.exitFullscreen;
+ assert.match(html,/<details\b[^>]*id="city-guide"[^>]*>/);assert.doesNotMatch(html.match(/<details\b[^>]*id="city-guide"[^>]*>/)[0],/\bopen\b/);
+});

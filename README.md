@@ -30,7 +30,7 @@ Open **http://localhost:8080**. No npm installation is required. Use an HTTP ser
 
 The separate owner-private hosted site is [DevOps Universe 3D](https://devops-universe-3d.vishnukushwaha63.chatgpt.site). Repository pushes do not automatically update that hosted copy.
 
-## Explore the DevOps city (v1.3)
+## Explore the DevOps city (v1.3.1)
 
 **[Enter the DevOps city →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=city)** (owner-private hosted site; the older `?world=kubernetes` link still opens the world)
 
@@ -38,11 +38,12 @@ The separate owner-private hosted site is [DevOps Universe 3D](https://devops-un
 
 *Illustration rendered from the actual Three.js meshes, not a browser screenshot. Browser/WebGL appearance, label placement and phone performance remain unverified.*
 
-Use **Complete city** for the whole architecture or choose a district for focused learning. Start with **code to production & feedback**, press **Watch flow**, pause, inspect a destination, and replay as needed. Selecting a district selects its related journey. Playing a connected journey reopens the whole city so its dependencies stay visible.
+Use **Complete city** for the whole architecture or choose a district for focused learning. Start with **code to production & feedback**, press **Watch flow**, pause, inspect a destination, and replay as needed. Selecting a district selects its related journey. The scene’s **Flow controls** panel starts collapsed so it does not cover the model; expand it only when needed. Use **Full screen** for a canvas-first view, and the same button or Escape to exit. A page-filling fallback is provided when native full screen is unavailable. Playing a connected journey reopens the whole city so its dependencies stay visible.
 
-- **153 modeled elements**, including **30 small configuration features**, across **10 districts**: delivery, Kubernetes, security, infrastructure as code, networking, cloud/platform, Linux/containers, data/messaging, observability and reliability/recovery.
-- **13 guided journeys / 121 explained steps**: the four existing Kubernetes journeys plus release/feedback, network/return paths, infrastructure changes, telemetry, asynchronous work, recovery, security, container lifecycle and cloud events/capacity.
-- An in-scene teaching card explains the active source, destination, operation/protocol, payload and purpose. Local operations, workflow decisions, control API calls and application network exchanges are labeled separately.
+- **174 modeled elements**, including **30 small configuration features**, across **11 districts**: Git/collaboration, delivery, Kubernetes, security, infrastructure as code, networking, AWS/cloud, Linux/containers, data/messaging, observability and reliability/recovery.
+- **15 guided journeys / 140 explained steps**: the four existing Kubernetes journeys plus release/feedback, network/return paths, infrastructure changes, telemetry, asynchronous work, recovery, security, container lifecycle, cloud events/capacity, Git internals and an AWS request/response example.
+- A compact, collapsible in-scene teaching card explains the active source, destination, operation/protocol, payload and purpose. Local operations, workflow decisions, control API calls and application network exchanges are labeled separately.
+- AWS service objects include EC2, IAM, Auto Scaling, Lambda, CloudTrail, VPC, Route 53, ALB, an EKS workload, ECR, S3, RDS, CloudWatch, Secrets Manager, security groups and NAT. The Git district includes working tree, index, commits, branch/HEAD, remote repository, fetch, integration, tags, revert and ignore rules.
 - Radial **Scan city** reveals cyan outlines by distance from the city center, with a discovery counter and clickable discovery list. Reduced-motion preferences reveal everything immediately. This scans educational objects, never real infrastructure.
 - Distinct procedural workstations, servers, databases, pipelines, containers and routing objects; colored district platforms and clear labels provide context. Minor settings retain their small geometry until approached or explicitly selected.
 - Horizontal/vertical rotation, pan, zoom, keyboard/buttons, fly-to, hierarchy search, breadcrumbs, exploded layers, complete-city reset and a clickable minimap.

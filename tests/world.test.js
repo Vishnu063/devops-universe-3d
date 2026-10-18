@@ -6,7 +6,7 @@ import {worldNodes,worldFlows,worldFailures,worldScope} from '../dist/world-data
 import {ancestors,worldPosition,searchWorld,detailVisible,canStepWorld,clampPolar,validateWorld} from '../dist/world-core.js';
 import {buildWorldObjects,KubernetesWorld} from '../dist/world-scene.js';
 
-test('The city has 153 unique modeled elements, 30 small features and valid flows/failures',()=>{assert.equal(worldNodes.length,153);assert.equal(worldNodes.filter(n=>n.minor).length,30);assert.equal(validateWorld(worldNodes,worldFlows,worldFailures),true);assert.equal(Object.values(worldFlows).reduce((n,f)=>n+f.steps.length,0),121);for(const n of worldNodes)for(const k of ['purpose','input','output','notes'])assert.ok(n[k],`${n.id}: ${k}`);assert.ok(worldScope.notIncluded.length);});
+test('The city has 174 unique modeled elements, 30 small features and valid flows/failures',()=>{assert.equal(worldNodes.length,174);assert.equal(worldNodes.filter(n=>n.minor).length,30);assert.equal(validateWorld(worldNodes,worldFlows,worldFailures),true);assert.equal(Object.values(worldFlows).reduce((n,f)=>n+f.steps.length,0),140);for(const n of worldNodes)for(const k of ['purpose','input','output','notes'])assert.ok(n[k],`${n.id}: ${k}`);assert.ok(worldScope.notIncluded.length);});
 test('Ancestry and world positions reflect environment, cluster, node, Pod and feature layers',()=>{assert.deepEqual(ancestors(worldNodes,'readiness').map(n=>n.id),['environment','cluster','worker-a','pod-a','readiness']);assert.deepEqual(ancestors(worldNodes,'app-a').map(n=>n.id),['environment','cluster','worker-a','pod-a','app-a']);const normal=worldPosition(worldNodes,'readiness'),exploded=worldPosition(worldNodes,'readiness',true);assert.ok(exploded[1]>normal[1]);assert.equal(normal[0],exploded[0]);assert.throws(()=>worldPosition(worldNodes,'missing'));});
 test('Tiny details reveal with proximity, explicit detail toggle or selection without expanding their geometry',()=>{const n=worldNodes.find(n=>n.id==='readiness');assert.equal(detailVisible(n,40,'cluster'),false);assert.equal(detailVisible(n,3,'cluster'),true);assert.equal(detailVisible(n,40,'readiness'),true);assert.equal(detailVisible(n,40,'cluster',true),true);assert.deepEqual(n.size,[.32,.16,.32]);assert.ok(searchWorld(worldNodes,'READINESS').some(n=>n.id==='readiness'));assert.ok(searchWorld(worldNodes,'RBAC').some(n=>n.id==='rbac'));});
 test('User traffic has a DNS return and excludes control-plane HTTP forwarding',()=>{const steps=worldFlows.traffic.steps;assert.equal(steps[0].to,'public-dns');assert.equal(steps[1].to,'users');assert.equal(steps.at(-1).to,'users');for(const s of steps){assert.ok(!['api','etcd','scheduler','controllers'].includes(s.from));assert.ok(!['api','etcd','scheduler','controllers'].includes(s.to));}assert.ok(steps.some(s=>s.kind==='Logical routing'));});
@@ -29,4 +29,11 @@ test('Networking journeys keep DNS answers and application responses separate fr
  const infrastructure=worldFlows['city-iac'].steps;assert.ok(infrastructure.find(s=>s.from==='tf-apply'&&s.to==='cloud-api').kind.includes('HTTPS'));
  assert.ok(worldFlows['city-observe'].steps.some(s=>s.from==='prometheus'&&s.to==='app-a'));
  assert.ok(worldFlows['city-observe'].steps.some(s=>s.from==='app-a'&&s.to==='prometheus'));
+});
+
+test('AWS and Git have inspectable components and accurate separate learning journeys',()=>{
+ for(const id of ['aws-vpc','aws-route53','aws-alb','aws-eks','aws-ecr','aws-s3','aws-rds','aws-cloudwatch','aws-secrets','aws-sg','aws-nat'])assert.ok(ancestors(worldNodes,id).some(n=>n.id==='cloud-district'));
+ for(const id of ['git','git-working','git-index','git-commit','git-branch','git-fetch','git-merge','git-tag','git-revert','git-ignore'])assert.ok(ancestors(worldNodes,id).some(n=>n.id==='git-district'));
+ const aws=worldFlows['city-aws'].steps;assert.equal(aws[0].to,'aws-route53');assert.equal(aws[1].to,'users');assert.ok(aws.some(s=>s.from==='aws-alb'&&s.to==='aws-eks'));assert.ok(!aws.some(s=>s.to==='api'));
+ assert.match(worldNodes.find(n=>n.id==='git-fetch').notes,/does not by itself merge/);
 });

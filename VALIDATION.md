@@ -51,3 +51,11 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 - Networking checks distinguish DNS replies, metrics scrape direction, request return paths and infrastructure control APIs.
 - A city illustration is derived from the actual meshes. It does not verify browser shaders, scene label placement, touch controls or device performance.
 - Browser QA could not run because the supported browser-control capability is unavailable. Browser/WebGL, visual layout, accessibility and phone performance remain outstanding.
+
+## Full screen, compact controls, AWS and Git (version 1.3.1)
+
+- The flow overlay is a native details panel, collapsed by default; the full lesson content remains available on expansion and below the model.
+- DOM checks exercise native full-screen enter/exit, rejected-API fallback, Escape exit and restoring body scroll. These are API mocks, not browser verification.
+- AWS and Git objects and paths are validated, including DNS response separation, EKS workload versus control-plane routing, and fetch versus merge.
+- Current inventory: 174 modeled elements, 11 districts, 30 minor features, 15 journeys and 140 steps.
+- Real browser full-screen permissions, mobile Safari behavior and visual layout remain unverified.
