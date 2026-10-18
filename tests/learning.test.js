@@ -5,7 +5,7 @@ import {labs,topics,cloudServices} from '../dist/data.js';
 import {initialProgress,getRecord,markVisited,markTask,isComplete,parseProgress,matchingTopics,canAdvance} from '../dist/core.js';
 
 test('Every learning model has valid nodes, directed steps, evidence and recovery',()=>{
-  assert.equal(labs.length,8);assert.equal(new Set(labs.map(l=>l.id)).size,8);
+  assert.equal(labs.length,12);assert.equal(new Set(labs.map(l=>l.id)).size,12);
   for(const lab of labs){const ids=new Set(lab.nodes.map(n=>n.id));assert.equal(ids.size,lab.nodes.length);
     for(const node of lab.nodes){for(const field of ['title','purpose','input','output','why','tip','zone'])assert.ok(node[field],`${lab.id}/${node.id}: ${field}`);assert.ok(Number.isFinite(node.x)&&Number.isFinite(node.z));assert.ok(node.tools.length);}
     for(const s of lab.steps){assert.ok(ids.has(s.from)&&ids.has(s.to),`${lab.id}: unresolved edge`);assert.notEqual(s.from,s.to);for(const field of ['protocol','title','text','payload','extra'])assert.ok(s[field]);}

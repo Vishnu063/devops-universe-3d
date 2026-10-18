@@ -1,15 +1,17 @@
 import {clamp} from './core.js';
 export class ArchitectureModel {
-  constructor(canvas,labels,onSelect){
-    this.canvas=canvas;this.ctx=canvas.getContext('2d');this.labels=labels;this.onSelect=onSelect;this.yaw=-.20;this.zoom=1;this.mode='3d';this.playing=false;this.failed=false;this.step=0;this.selected='';this.dirty=true;this.width=600;this.height=420;this.motion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  constructor(canvas,labels,onSelect,onConnection=()=>{}){
+    this.canvas=canvas;this.ctx=canvas.getContext('2d');this.labels=labels;this.onSelect=onSelect;this.onConnection=onConnection;this.yaw=-.20;this.zoom=1;this.mode='3d';this.playing=false;this.failed=false;this.step=0;this.selected='';this.dirty=true;this.width=600;this.height=420;this.motion=matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.observer=new ResizeObserver(entries=>{const r=entries[0].contentRect;this.width=r.width;this.height=r.height;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);this.ctx.setTransform(dpr,0,0,dpr,0,0);this.dirty=true;});this.observer.observe(canvas);
-    canvas.addEventListener('pointerdown',e=>{this.drag={x:e.clientX,yaw:this.yaw};canvas.setPointerCapture(e.pointerId);});
-    canvas.addEventListener('pointermove',e=>{if(this.drag&&this.mode==='3d'){this.yaw=this.drag.yaw+(e.clientX-this.drag.x)*.006;this.dirty=true;}});
+    canvas.addEventListener('pointerdown',e=>{this.drag={x:e.clientX,y:e.clientY,yaw:this.yaw,moved:false};canvas.setPointerCapture(e.pointerId);});
+    canvas.addEventListener('pointermove',e=>{if(this.drag&&Math.hypot(e.clientX-this.drag.x,e.clientY-this.drag.y)>5)this.drag.moved=true;if(this.drag&&this.mode==='3d'){this.yaw=this.drag.yaw+(e.clientX-this.drag.x)*.006;this.dirty=true;}});
+    canvas.addEventListener('pointerup',e=>{if(this.drag&&!this.drag.moved){const rect=canvas.getBoundingClientRect();this.selectConnection(e.clientX-rect.left,e.clientY-rect.top);}});
     for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,()=>{this.drag=null;});
     canvas.addEventListener('wheel',e=>{if(e.ctrlKey||Math.abs(e.deltaY)>0){e.preventDefault();this.zoom=clamp(this.zoom-e.deltaY*.001,.65,1.6);this.dirty=true;}},{passive:false});
     const tick=time=>{if(!document.hidden&&(this.dirty||(this.playing&&!this.motion))){this.draw(time);this.dirty=false;}requestAnimationFrame(tick);};requestAnimationFrame(tick);
     document.addEventListener('visibilitychange',()=>{this.dirty=true;});
   }
+  selectConnection(x,y){if(!this.lab)return;let best=null;const ordered=[this.step,...this.lab.steps.map((_,i)=>i).filter(i=>i!==this.step)];for(const index of ordered){const s=this.lab.steps[index],n1=this.lab.nodes.find(n=>n.id===s.from),n2=this.lab.nodes.find(n=>n.id===s.to),a=this.project(n1.x,.08,n1.z),b=this.project(n2.x,.08,n2.z);const dx=b.x-a.x,dy=b.y-a.y;const t=clamp(((x-a.x)*dx+(y-a.y)*dy)/(dx*dx+dy*dy),0,1);if(t<.12||t>.88)continue;const distance=Math.hypot(x-(a.x+t*dx),y-(a.y+t*dy));if(distance<10&&(!best||distance<best.distance-.5))best={index,distance};}if(best)this.onConnection(best.index);}
   setLab(lab){this.lab=lab;this.labels.replaceChildren();this.buttons=new Map();lab.nodes.forEach((node,i)=>{const b=document.createElement('button');b.className='node-label';b.dataset.node=node.id;b.setAttribute('aria-label',`${node.title}, ${node.zone}. Inspect component`);const num=document.createElement('span');num.className='node-order';num.textContent=String(i+1).padStart(2,'0');b.append(num,document.createTextNode(node.title));const small=document.createElement('small');small.textContent=node.zone.toUpperCase();b.append(small);b.addEventListener('click',()=>this.onSelect(node.id));this.labels.append(b);this.buttons.set(node.id,b);});this.reset();}
   update({step,selected,playing,failed}){Object.assign(this,{step,selected,playing,failed});this.dirty=true;}
   reset(){this.yaw=-.2;this.zoom=1;this.dirty=true;}

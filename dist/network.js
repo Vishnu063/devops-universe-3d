@@ -1,0 +1,40 @@
+// Documentation-only addresses (RFC 5737) and private addresses; never live infrastructure.
+const packet=(source,destination,sourcePort,destinationPort,protocol,route,security,response)=>({kind:'Network exchange',source,destination,sourcePort,destinationPort,protocol,route,security,response});
+const web=[
+packet('198.51.100.24','192.0.2.53','53053','53','DNS over UDP','Client → resolver','Resolver reachable; DNS query permitted','Resolver:53 → client:53053. TCP/DoH/DoT alternatives omitted.'),
+packet('192.0.2.53','198.51.100.24','53','53053','DNS over UDP','Resolver → client','Return for the permitted DNS exchange','The DNS answer supplies an address; no HTTP passes through the resolver.'),
+packet('198.51.100.24','203.0.113.10','53000','443','TCP + TLS + HTTP','Client → public CDN/WAF edge','Public HTTPS listener; WAF accepts this example','Edge:443 → client:53000 on this established connection.'),
+packet('203.0.113.10','203.0.113.40','52001','443','TCP + TLS + HTTP','CDN → public origin ALB','Origin permits the approved edge path','ALB:443 → edge:52001. Separate from the client connection.'),
+packet('10.0.1.10','10.0.2.20','51000','8080','TCP + HTTP','ALB → app through VPC local routing','App SG permits ALB SG on 8080; applicable NACLs and listener permit it','App:8080 → ALB:51000. No NAT required for this internal hop.'),
+packet('10.0.2.20','10.0.3.30','50000','5432','TCP + PostgreSQL TLS','App → database through VPC local routing','DB SG permits app SG on 5432; database authentication is separate','DB:5432 → app:50000 on the established connection.'),
+packet('10.0.3.30','10.0.2.20','5432','50000','TCP + PostgreSQL TLS','Database → app','Stateful SG return allowed; stateless NACL return rules still matter','This is the database response, not a browser response.'),
+packet('10.0.2.20','10.0.1.10','8080','51000','TCP + HTTP','App → ALB on established backend connection','Stateful SG return permitted; NACL return path required','ALB forwards the HTTP result onto its distinct origin connection.'),
+packet('203.0.113.40','203.0.113.10','443','52001','TCP + TLS + HTTP','ALB → CDN on established origin connection','Return traffic for the permitted origin connection','CDN may cache according to policy, then responds on the client connection.'),
+packet('203.0.113.10','198.51.100.24','443','53000','TCP + TLS + HTTP','CDN → browser on established client connection','Protected response on the existing HTTPS session','DNS is absent from the response path.')
+];
+export function connectionDetails(lab,index){const s=lab.steps[index];const from=lab.nodes.find(n=>n.id===s.from),to=lab.nodes.find(n=>n.id===s.to);let info;
+if(lab.id==='web')info=web[index];
+else if(lab.id==='network'){
+ const paths=[
+ packet('198.51.100.24','203.0.113.40','53000','443','TCP / HTTPS','Internet → internet gateway → public ALB','Public entry and route required','The gateway is a routing component, not a separate TCP destination.'),
+ packet('198.51.100.24','203.0.113.40','53000','443','TCP / HTTPS','Internet gateway delivers to ALB','ALB SG and NACL permit required traffic','The ALB terminates this session and opens a separate backend connection.'),
+ web[4],web[5],web[6],
+ packet('10.0.2.20','203.0.113.80','50001','443','TCP / HTTPS','Private app default route → public NAT → internet gateway','Outbound policy permits the public API connection','Before NAT: source 10.0.2.20. Return must use NAT connection state.'),
+ packet('203.0.113.20','203.0.113.80','50001 (illustrative)','443','TCP / HTTPS','NAT public subnet → internet gateway → public API','NAT subnet routes and NACLs must permit flow; NAT has no SG attached','After source NAT: 203.0.113.20. Port translation is possible; this example preserves it.')];info=paths[index];
+}else if(lab.id==='tcp-tls'&&![5,7,8].includes(index)){
+ const reverse=[1,4,9].includes(index);info=packet(reverse?'203.0.113.10':'198.51.100.24',reverse?'198.51.100.24':'203.0.113.10',reverse?'443':'53000',reverse?'53000':'443',s.protocol,'The same client ↔ server TCP connection','A reachable listener and permitted forward/return path are required',index<3?'TCP handshake only; TLS identity is not yet established.':'TLS protects application records after successful negotiation and validation.');
+}
+if(!info)info={kind:'Conceptual / control relationship',source:from.title,destination:to.title,sourcePort:'Not specified',destinationPort:'Not specified',protocol:s.protocol,route:`${from.zone} → ${to.zone}`,security:'This model does not define a concrete packet capture or complete access policy for this relationship.',response:s.extra};
+return {...info,sourceName:from.title,destinationName:to.title,payload:s.payload,note:info.kind==='Network exchange'?'All IPs and ephemeral ports are illustrative. Public addresses use documentation ranges; actual cloud connections may use different addresses.':'This arrow may represent a local operation, an artifact handoff or a management relationship. Do not treat every arrow as TCP traffic.'};}
+
+export const networkScenarios={
+ 'internet-alb':{title:'Internet client → public ALB',source:'198.51.100.24',destination:'203.0.113.40',port:443,protocol:'HTTPS',route:'Public endpoint and internet routing',rule:'ALB SG allows the intended client source on TCP 443',nacl:'Stateless NACL permits request and ephemeral return traffic',listener:'ALB HTTPS listener on 443',returnPath:'ALB:443 → client ephemeral port on the established connection.'},
+ 'alb-app':{title:'ALB → private application',source:'10.0.1.10',destination:'10.0.2.20',port:8080,protocol:'HTTP',route:'VPC local route; no NAT required',rule:'App SG allows ALB SG on TCP 8080',nacl:'Both subnet NACLs permit request and ephemeral return traffic',listener:'Application listens on the reachable interface, port 8080',returnPath:'App:8080 → ALB ephemeral port. Stateful SG response permitted; NACLs still need return rules.'},
+ 'app-db':{title:'Application → private PostgreSQL',source:'10.0.2.20',destination:'10.0.3.30',port:5432,protocol:'PostgreSQL',route:'VPC local route between app and database subnets',rule:'DB SG allows app SG on TCP 5432',nacl:'Data/app subnet NACLs permit both directions',listener:'Database listens on port 5432',returnPath:'DB:5432 → app ephemeral port. Authentication/authorization may still reject an otherwise reachable connection.'},
+ 'app-api':{title:'Private application → public API',source:'10.0.2.20',destination:'203.0.113.80',port:443,protocol:'HTTPS',route:'Private default route → NAT → public subnet internet gateway route',rule:'App egress SG permits required HTTPS; NAT itself has no SG',nacl:'Private and NAT subnet NACLs permit request and return',listener:'External API HTTPS listener on 443',returnPath:'API → NAT public address → private app through NAT session state. Unsolicited inbound access is not enabled.'}
+};
+export function evaluateNetwork(input){const scenario=networkScenarios[input.scenario];if(!scenario)throw new Error('Unknown network scenario');const port=Number(input.port);if(!Number.isInteger(port)||port<1||port>65535)return {ok:false,steps:[],summary:'Enter a valid integer TCP destination port from 1 to 65535.'};
+const checks=[['Routing',input.route,scenario.route],['Network ACL',input.nacl,scenario.nacl],['Security group',input.rule,scenario.rule],['Listener',input.listener&&port===scenario.port,`This fixed example listens on ${scenario.port}; you selected ${port}.`]];
+if(['internet-alb','app-api'].includes(input.scenario))checks.push(['TLS identity',input.tls,'A valid hostname, trusted certificate chain and successful TLS negotiation are required.']);
+const steps=[];let blocked=false;for(const [name,pass,detail] of checks){const state=blocked?'not reached':pass?'pass':'blocked';steps.push({name,state,detail});if(!pass)blocked=true;}
+return {ok:!blocked,steps,summary:blocked?'Blocked in this simplified policy model. Inspect the first failed boundary.':'The modeled connection passes these checks. Application authentication, authorization and health must still be verified.',returnPath:scenario.returnPath};}

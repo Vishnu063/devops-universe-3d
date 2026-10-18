@@ -1,10 +1,10 @@
 # DevOps Universe 3D
 
-**See it. Trace it. Understand it.**
+**Choose a topic. Follow the flow. Practice and explain it.**
 
-A free, dependency-free learning website that explains how requests, network packets, source code, artifacts, telemetry and recovery decisions move through a DevOps system.
+A free, topic-first DevOps learning website with staged lessons, inspectable architecture models, practical exercises, troubleshooting cases and guided projects. No API key, paid AI model or cloud account is needed to use the site.
 
-## Start learning
+## Start
 
 ```bash
 git clone https://github.com/Vishnu063/devops-universe-3d.git
@@ -12,98 +12,145 @@ cd devops-universe-3d
 python3 -m http.server 8080 --directory dist
 ```
 
-Open **http://localhost:8080**. No npm installation, cloud account, API key, GPU, backend or paid service is needed. Serve the folder over HTTP; opening `index.html` directly as a `file://` URL will not load JavaScript modules reliably.
+Open **http://localhost:8080**. No npm installation is required. Use an HTTP server; JavaScript modules may not load correctly from a `file://` URL.
 
-1. Begin with **A web request, end to end**.
-2. Click **Next step** to follow one directed connection at a time. **Play journey** advances automatically; speed is adjustable.
-3. Read the protocol, example payload, explanation and architecture caveat below the model.
-4. Click a component for what it receives, what it sends, why it matters, relevant tools and a misconception to avoid.
-5. Drag to orbit, scroll or use buttons to zoom, and choose **2D map** when a flat layout is easier.
-6. Inject the model’s failure, read the evidence and choose a recovery action. Wrong answers provide feedback and allow another attempt.
-7. Answer the knowledge check. A model is complete after all journey steps, a correct answer and a recovery exercise.
+The separate owner-private hosted site is [DevOps Universe 3D](https://devops-universe-3d.vishnukushwaha63.chatgpt.site). Repository pushes do not automatically update that hosted copy.
 
-## Eight interactive architecture models
+## Choose a topic and learn at your pace
 
-| Model | What you learn |
+The home page opens **Learn by topic**. Choose any of the 30 topics in the dropdown, or search by skill or tool. Prerequisites are linked and a dependency-ordered roadmap is available in **My learning path**. Topics remain open: you do not have to finish another course to inspect one you need now.
+
+Each topic contains:
+
+1. **Three staged lessons:** beginner, intermediate and advanced perspectives, each with a “Can you explain it?” prompt.
+2. **A related 3D model:** inspect components, follow directed connections and read the full accessible journey.
+3. **A practical exercise:** prerequisites, resource scope, commands or tabletop tasks, expected evidence, explanation and cleanup.
+4. **A troubleshooting case:** symptom, evidence, optional hint and explained solution.
+5. **Two knowledge questions:** feedback explains correct and incorrect choices.
+6. **An evidence notebook:** record actual observations rather than treating a read lesson as executed practice.
+
+There are **90 staged lessons, 60 topic-assessment questions, 30 topic exercises and 30 troubleshooting cases**. Some exercises run real local commands; others are explicitly architecture, policy or operational reasoning exercises. They are not all full infrastructure deployments.
+
+A **course checkpoint** requires all three lessons marked read, both questions answered correctly, and a self-reported practice record of at least 80 characters with confirmation. This is a learning tracker, not independent verification or a professional certification. Reading a solution does not execute a lab.
+
+### Topics covered
+
+Practices; Linux/Windows operating systems; networking; scripting; Git; builds/dependencies; CI/CD; testing; artifacts; containers; Kubernetes; infrastructure as code; configuration management; cloud platforms; releases; GitOps; application infrastructure; databases/storage; observability; incidents; SRE; DevSecOps/supply chain; identity/secrets/policy; backup/disaster recovery; platform engineering; FinOps; governance/compliance; serverless/events; specialized disciplines; documentation/measurements.
+
+The **Learning library** retains the 30-area field guide and a 26-row AWS/Azure/Google Cloud service-category comparison. Similar service categories do not imply identical configuration or behavior.
+
+## Twelve interactive architecture models
+
+| Model | Main lesson |
 | --- | --- |
-| A web request, end to end | Separate DNS exchange, HTTPS, CDN/WAF, load balancing, app/database query, and response return path |
-| Inside a private network | Public/private tiers, routing, security groups and a separate NAT egress example |
-| From commit to production | Reviewed source, CI, tests, security gates, registry digest, rollout and health verification |
-| Inside Kubernetes | Management/control flow, scheduling, kubelet, readiness, Ingress and Service/Pod traffic |
-| A secure delivery chain | Secret/code/image scans, SBOM, signing, admission, identity and runtime access |
-| From symptom to evidence | Correlated logs, metrics, traces, collection, alerting and evidence-based recovery |
-| An event-driven workflow | Queue acceptance, function processing, idempotency, acknowledgements and dead-letter queues |
-| Recover from an outage | Protected backups, restoration, RPO/RTO, business validation and controlled failover |
+| A web request, end to end | Separate DNS exchange, HTTPS, cache miss, load balancing, database query and response path |
+| Inside a private network | Public/private tiers, routing, stateful security groups, NACLs and separate NAT egress |
+| From commit to production | Reviewed source, CI, tests, scans, immutable artifact, deployment and verification |
+| Inside Kubernetes | Management/control flow versus runtime Ingress/Service/Pod traffic |
+| A secure delivery chain | Scanning, SBOM, signing, admission and runtime identity |
+| From symptom to evidence | Logs, metrics, traces, alerts and evidence-based mitigation |
+| An event-driven workflow | Acceptance, delivery, idempotency, acknowledgement and failed-message recovery |
+| Recover from an outage | Protected backups, restore, RTO/RPO, dependency validation and failover |
+| A Linux application process | Execution, configuration reads, socket binding and endpoint verification |
+| TCP, TLS, then HTTP | TCP handshake, simplified TLS 1.3, local certificate validation and application data |
+| From Dockerfile to container | Build context, layers/cache, separate publication, runtime, volume and port mapping |
+| An infrastructure change | Plan/state/provider relationships, reviewed apply and outcome verification |
 
-The **Learning library** covers all 30 areas from the DevOps curriculum: practices, operating systems, networking, scripting, Git, builds, CI/CD, testing, artifacts, containers, Kubernetes, IaC, configuration management, cloud, releases, GitOps, application infrastructure, databases, observability, incident response, SRE, DevSecOps, identity/secrets/policy, disaster recovery, platform engineering, FinOps, governance, serverless, specialized disciplines and documentation/measurements.
+**82 directed journey steps** are included. Each model also has a failure exercise and a knowledge check.
 
-Each area includes its purpose, conceptual flow, skills, tools, practical exercise, pitfall and a link to a related model. Search and area filters are included. A 26-row AWS/Azure/Google Cloud comparison maps common service categories.
+- Click a component for input, output, purpose, tools and a misconception to avoid.
+- Click a connection, or use the numbered text journey, to inspect its step.
+- Drag to orbit, use zoom/rotation buttons or switch to the flat **2D map**.
+- Use **Next step** or adjustable playback to follow one connection at a time.
+- Inject a failure, inspect evidence and select a recovery. Unresolved failures block advancement beyond the affected connection.
 
-**Scope:** all 30 areas have learning content; eight selected architectures have interactive models. This release does not provide a separate simulation for every vendor product, execute shell commands, connect to live infrastructure, or emulate real packet timing. The models are educational abstractions, with implementation caveats shown in the lesson text. Serverless success and failure branches are explained separately. Kubernetes control-plane traffic is distinguished from user traffic.
+The renderer projects 3D coordinates onto Canvas 2D and draws solid blocks, links and moving packets. It is a lightweight educational renderer, not a WebGL cloud emulator. Packet animation, layout and timing are illustrative.
 
-## Accessibility and privacy
+## Inspect networking rather than guessing
 
-- Keyboard-accessible component buttons, view controls and lesson navigation.
-- Complete text journey for screen readers and learners who prefer reading.
-- Flat 2D view, readable labels and reduced-motion support.
-- Responsive layouts for phones, tablets and desktops.
-- Optional browser speech synthesis. Available voices and whether speech uses a local or remote service depend on the browser and operating system.
-- Progress is saved in browser-local storage, with a JSON download and deliberate two-click reset. Storage failures degrade to session progress. There is no account sync or progress import in this release.
-- No analytics, external scripts, CDN libraries, fonts, cloud credentials or tracking requests are included in the application.
+The connection inspector shows relationship type, source/destination, ports when specified, protocol, route or boundary, example access decision, payload and return-path caveats. Detailed example addresses are supplied for the web, private-network and TCP/TLS paths. Other relationships are explicitly marked conceptual when a concrete packet exchange is not specified.
 
-## Development and checks
+Public example addresses use documentation ranges; private addresses and ephemeral ports are illustrative. Local file reads, certificate validation and Terraform dependencies are **not** represented as literal TCP traffic.
 
-Node.js 22 or newer is only needed for checks, not for serving the site.
+The **Network decision sandbox** includes internet → ALB, ALB → app, app → database and private app → public API paths. Toggle routing, NACL, security-group, listener and relevant TLS conditions; change the destination port; inspect the first modeled failed boundary and the return path. This uses a fixed explanatory check order and simplified AWS-style assumptions. It does not query cloud state, calculate arbitrary subnet routes or reproduce a real packet capture.
+
+## Three guided end-to-end projects
+
+Downloadable example files are in `dist/projects/learning-app/` and linked from the Projects page.
+
+| Project | Work and evidence |
+| --- | --- |
+| Containerized API | Test real HTTP/database behavior, build/run a non-root container, inspect health/metrics and verify a readable SQLite backup |
+| Kubernetes recovery | Load the local image into a named kind cluster, deploy two replicas/Service, remove required environment configuration, inspect a failed new Pod, roll back and verify |
+| Release candidate review | Run tests, build/identify a candidate, optionally scan locally, run a supplied CI example in a disposable repository and record a go/no-go decision |
+
+Each has three evidence milestones, exact commands or tasks, expected results, prerequisites, limits and cleanup. Milestones are self-reported; the site does not remotely execute or certify them.
+
+The sample API exposes `/health`, `/products` and `/metrics`. It deliberately requires `APP_MESSAGE` for the missing-configuration exercise. Its Python standard-library HTTP server and per-Pod SQLite storage are teaching choices, **not a production server/shared-database architecture**. Its metrics sample is not a deployed monitoring stack.
+
+The supplied `ci-example.yml` runs app tests, builds, smoke-tests and cleans up. It does not automatically scan, sign, push an image or deploy production. Copy it only into a separate disposable app repository as explained in the project.
+
+## Progress, accessibility and privacy
+
+- Model progress and course/project records use separate versioned browser-local storage keys; old eight-model progress is retained as the model set expands.
+- Course selection does not mark a lesson read. Practice needs observations and explicit confirmation.
+- Download progress includes models, courses and project evidence. The two-click reset clears all three.
+- Storage failure falls back to session state. No account sync or progress import is provided.
+- Controls have text labels; a complete ordered text journey accompanies the canvas; 2D and reduced-motion options are supported.
+- Responsive layouts are implemented for phone, tablet and desktop sizes. Actual device/browser visual and assistive-technology verification remains outstanding.
+- Optional speech uses browser/OS voices. Whether a voice uses a local or remote service depends on the browser/OS.
+- No analytics, externally loaded fonts, CDN libraries or AI inference requests are included. Official reference links leave the site when selected.
+- Record sanitized observations without secrets or private customer data.
+
+## Validation and honest limits
+
+Use Node.js 22+ and Python 3 for checks:
 
 ```bash
 npm run check
 npm test
 ```
 
-Tests validate directed connections, curriculum coverage, recovery gates, completion rules, corrupted progress handling, search behavior, DNS separation and HTML selector consistency. A lightweight DOM smoke test also exercises navigation, all model journeys, all quiz/failure options, filtering and progress reset without launching a browser.
+The current suite has **24 Node test cases**, including one that runs **four real Python HTTP/database integration tests**. It covers all topic selections, lesson stages, assessment attempts, minimum evidence handling, progress persistence/reset, prerequisites, curriculum/model references, network deny conditions, connection picking, response ports, corrupt-storage input and renderer coordinate checks at multiple widths. DOM tests use a minimal fixture, not a real browser.
 
-Browser visual QA must still be performed on target browsers. Test mobile orbit/scroll interactions, canvas text and label overlap, zoom limits, keyboard navigation, screen reader output, speech support and reduced-motion settings before claiming universal browser compatibility.
+Verified locally: JavaScript syntax; these automated tests; the supplied API’s health, product read, metrics and 404 behavior over loopback HTTP.
 
-## Deploy
+Not verified in this environment: real browser layout/interaction, phone touch behavior, screen reader output, OS speech, clipboard permissions, Docker build/run, kind deployment/rollback, Terraform/Ansible execution or a real Trivy scan. Instructions for these are provided; they must not be described as successfully executed until observed.
 
-Upload the contents of **dist/** to any static host. All application paths are relative, so GitHub Pages project URLs are supported.
+This release offers structured **core DevOps coverage and guided practice**, not complete mastery of every vendor product or advanced specialization. Further production experience, deeper tool-specific labs and specialist study remain necessary. Lesson labels indicate increasing perspective, not independently demonstrated seniority.
 
-The included GitHub Actions **Check and publish learning site** workflow validates the project and uploads the static-site artifact after pushes to `main`. GitHub Pages deployment is opt-in so checks work before hosting is configured. To publish on GitHub Pages:
+## Deploy this static site
+
+Upload `dist/` to a static host. Paths are relative and work under GitHub Pages project URLs.
+
+The repository Actions workflow runs checks and uploads the static-site artifact on `main` pushes and pull requests. GitHub Pages deployment is optional:
 
 1. Select **Settings → Pages → Source → GitHub Actions**.
-2. Add the repository Actions variable **ENABLE_PAGES** with the value **true** under **Settings → Secrets and variables → Actions → Variables**.
-3. Run the workflow manually or push a change to `main`.
+2. Add repository Actions variable **ENABLE_PAGES** with value **true**.
+3. Run the workflow or push a change to `main`.
 
-Once enabled and a successful deployment runs, the expected project URL is `https://vishnu063.github.io/devops-universe-3d/`. This URL is not claimed as live until GitHub reports a successful deployment.
+The expected Pages URL is `https://vishnu063.github.io/devops-universe-3d/` after a successful deployment; it is not claimed live before that result.
 
-The hosted preview supplied with this project is private to the site owner by default. Changing the GitHub repository does not automatically update that separate preview; GitHub Pages uses repository workflow deployments.
-
-## Project structure
+## Source layout
 
 ```text
 dist/
-  index.html       Semantic interface and learning workspace
-  style.css        Responsive layout, visual theme and accessibility styling
-  data.js          Eight models, 30 curriculum areas and cloud mappings
-  model.js         Canvas renderer projecting 3D coordinates, orbit and animation
-  core.js          Pure progress, filtering and recovery-gate logic
-  app.js           Playback, lessons, component inspector and interactions
-tests/             Content, state and DOM interaction checks
-.github/workflows/ Automated checks and GitHub Pages deployment
+  index.html / style.css   Responsive learning workspace
+  data.js                 12 models, field guide and cloud mapping
+  curriculum.js           30 courses and their staged learning content
+  learning-core.js         Course/project progress and prerequisite logic
+  study.js                Topic UI, assessments, practice and projects
+  network.js              Connection examples and policy decision model
+  projects.js             Three guided project plans
+  projects/learning-app/  Real demo API, tests, Dockerfile and teaching configs
+  model.js                Lightweight projected 3D canvas renderer
+  core.js / app.js         Model progress and site interactions
+tests/                    Content, state, DOM, renderer and API integration checks
+.github/workflows/        Checks and optional Pages deployment
 ```
 
-The 3D renderer uses a small custom Canvas 2D projection of three-dimensional coordinates, rather than a heavyweight WebGL engine. It draws solid isometric blocks, directed connections and moving packets; rotation and zoom change the projected view. No 3D assets need downloading.
+## Accuracy and contribution
 
-## Learning references
+Lessons link to primary learning references. Important concepts were checked against official [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/), [EndpointSlices](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/), [kubectl environment updates](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_set/kubectl_set_env/), [kind quick start](https://kind.sigs.k8s.io/docs/user/quick-start/), [Docker port publishing](https://docs.docker.com/engine/network/port-publishing/), [Terraform built-in data resource](https://developer.hashicorp.com/terraform/language/resources/terraform-data), [AWS private network architecture](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-example-private-subnets-nat.html) and [Lambda/SQS delivery guidance](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html).
 
-- [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
-- [Kubernetes EndpointSlices](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/)
-- [Kubernetes virtual IPs and service proxies](https://kubernetes.io/docs/reference/networking/virtual-ips/)
-- [AWS private subnet and NAT architecture](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-example-private-subnets-nat.html)
-- [AWS NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)
-- [Using Lambda with SQS](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html)
-- [SQS at-least-once delivery](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/standard-queues-at-least-once-delivery.html)
-
-## Contributing
-
-Add or improve educational content in `dist/data.js`. Preserve accurate direction, distinguish data traffic from control relationships, explain abstractions, and add evidence-based failure exercises. Run both checks before submitting a pull request. Never add real credentials, private logs or customer data.
+To contribute, preserve accurate direction, distinguish conceptual/control relationships from packets, explain assumptions and include evidence-based recovery. Run checks before a pull request. Do not add real credentials or private logs. See [VALIDATION.md](VALIDATION.md) for the validation boundary.

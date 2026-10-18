@@ -1,0 +1,31 @@
+# Copy into a SEPARATE disposable app repository as .github/workflows/ci.yml.
+# Put app.py, test_app.py and Dockerfile at that repository's root.
+name: Learning API checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: API integration tests
+        run: python -m unittest -v test_app.py
+      - name: Build candidate
+        run: docker build -t universe-learning-app:ci .
+      - name: Start candidate and verify health
+        run: |
+          docker run -d --name universe-ci -e APP_MESSAGE=ci -p 127.0.0.1:18083:8080 universe-learning-app:ci
+          for attempt in $(seq 1 20); do
+            if curl --fail http://127.0.0.1:18083/health; then exit 0; fi
+            sleep 1
+          done
+          docker logs universe-ci
+          exit 1
+      - name: Cleanup
+        if: always()
+        run: docker rm -f universe-ci || true
+# No image push or production deployment is performed by this teaching workflow.
