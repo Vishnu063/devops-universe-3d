@@ -4,6 +4,12 @@
 
 A free, topic-first DevOps learning website with staged lessons, inspectable architecture models, practical exercises, troubleshooting cases and guided projects. No API key, paid AI model or cloud account is needed to use the site.
 
+## Live site preview
+
+[![Live DevOps Universe 3D homepage with the topic picker and staged learning workspace](docs/screenshots/live-preview.jpg)](https://devops-universe-3d.vishnukushwaha63.chatgpt.site)
+
+*Actual screenshot of the deployed topic-learning homepage, captured 18 October 2026. The live site requires owner access.*
+
 ## Start
 
 ```bash
