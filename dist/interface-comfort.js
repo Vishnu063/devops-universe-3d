@@ -1,0 +1,4 @@
+export const comfortKey='devops-interface-comfort-v1';
+export function defaultComfort(systemReduced=false){return {version:1,introSeen:false,quality:'normal',reducedMotion:!!systemReduced};}
+export function parseComfort(raw,systemReduced=false){const clean=defaultComfort(systemReduced);try{const d=JSON.parse(raw);if(d?.version!==1)return clean;clean.introSeen=d.introSeen===true;if(d.quality==='low')clean.quality='low';if(typeof d.reducedMotion==='boolean')clean.reducedMotion=d.reducedMotion;return clean;}catch{return clean;}}
+export function nextCityHint(discovered,total=30){if(!discovered.length)return 'Start scan to find your first topic.';if(discovered.length>=total)return 'All topics found. Pick one and read Start here.';if(!discovered.includes('devsecops'))return 'Next: find Security, or choose a topic from Menu.';return 'Pick a glowing building, or open Topics in Menu.';}

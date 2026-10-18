@@ -30,6 +30,20 @@ Open **http://localhost:8080**. No npm installation is required. Use an HTTP ser
 
 The separate owner-private hosted site is [DevOps Universe 3D](https://devops-universe-3d.vishnukushwaha63.chatgpt.site). Repository pushes do not automatically update that hosted copy.
 
+## A simpler first visit (v1.10)
+
+The homepage now leads with **Start scan**. The main toolbar shows **Start scan**, **Reset view**, progress and **Menu**. Topics/search, beginner learning, Resume, the network builder, view choices and full screen are in Menu; camera tap buttons, the component browser, exploded view and extra filters are under **Advanced**. The site-wide roadmap and other workspaces are under **Browse**.
+
+- A short control hint appears once, after the city or its fallback is ready. It disappears after ten seconds or **Got it**. Preferences save locally; if storage is unavailable, they last for the session.
+- Discovery cards open with one beginner idea under **Start here**. Intermediate/advanced material stays inside a closed **Go deeper** section. Exercises and failure cases remain optional expansions.
+- Discovery count stays in the toolbar. A short next hint suggests scanning, Security, or reading a discovered topic. Everyday messages are shorter; explanations of the simulation, coverage and verification limits are grouped in **About this learning model**.
+- **Menu → Display & motion** provides **Low quality** and **Reduce motion**. Low quality caps pixel ratio at 0.85, targets up to 20 frames/second, hides some distant city detail/outlines and removes decorative route glow/beads. It preserves the underlying model, selection and learning content. This release does not introduce instanced rendering or bloom; there is no bloom pipeline to disable. These changes are not evidence of performance on a physical phone.
+- Reduced motion defaults to the operating-system preference and can be changed explicitly. It stops animated packet movement, removes camera easing/damping and makes scans reveal immediately. Both the 3D and 2D scan respect the setting.
+- Three.js remains a dynamic import. An indeterminate loading bar shows while it opens; it does not invent a download percentage. If 3D cannot start, a short message offers the working 2D map and technical details move to About. Topics and the text hierarchy remain accessible without 3D.
+- Larger tap targets, visible keyboard focus and caption-spacing estimates support easier interaction. Menu actions close the menu when they take you to a view; display settings stay open while you adjust them.
+
+**71 automated checks pass.** These are syntax, behavior and geometry checks, not proof of visual smoothness, accessibility compliance or phone performance. **Testing with three real people has not been performed.** Use [the observation sheet](docs/USABILITY-TEST.md) to record actual results before claiming usability validation or adding more features. Supported real-browser control remains unavailable in this environment.
+
 ## Build your own network (v1.9)
 
 On the [city homepage](https://devops-universe-3d.vishnukushwaha63.chatgpt.site), choose **Build my network**. The editor uses the same 3D canvas, camera and 2D fallback; it does not open a new website tab or connect to real infrastructure.

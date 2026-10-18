@@ -123,3 +123,13 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 - DOM tests build, edit, deny, repair, export, clear, import, reject invalid JSON, undo and trace proxy examples without changing the existing city or adding a canvas.
 - Actual Three.js meshes are built with finite bounds; entering/leaving the custom scene hides/restores the fixed city and disposes custom scene geometry/materials. Real WebGL, hit-testing, layout, full-screen and phone usability remain unverified because supported browser control is unavailable.
 - No actual packets, sockets, cloud resources, application workloads or infrastructure configuration are created or tested.
+
+## Scan-first simplicity and comfort settings (version 1.10)
+
+- 71 automated checks pass. Existing city, curriculum, request-lab and custom-network inventories are unchanged.
+- DOM checks cover the collapsed Menu/Advanced structure, first-lesson versus closed deeper content, persisted comfort settings, one-time onboarding dismissal, next hint and About access. Existing 2D discovery tests now use the explicit reduced-motion preference.
+- Pure preference tests cover corrupt data and operating-system motion defaults. Actual Three.js checks confirm that low quality reduces distant visible detail and pixel ratio while preserving all 190 model objects, and does not rebuild city routes inside the custom-network editor.
+- Labels use spacing estimates matching the larger tap targets. The loading bar is indeterminate, not a measured fetch-progress claim.
+- The scene has no bloom pipeline. Instanced rendering was not added. Low quality uses lower resolution, frame-rate cap, distant detail reduction and simpler route decoration; no phone benchmark or improvement percentage is claimed.
+- Real-browser/WebGL layout, keyboard/screen-reader experience, full-screen behavior, readability and device performance remain unverified because supported browser control is unavailable. No browser was installed or alternate control path used.
+- Three-person usability testing is explicitly pending. docs/USABILITY-TEST.md contains unfilled observation slots and tasks, not invented participant results.
