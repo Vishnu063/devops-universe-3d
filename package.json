@@ -1,0 +1,9 @@
+{
+  "name": "devops-universe-3d",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Explore DevOps through interactive 3D architecture and guided packet journeys",
+  "scripts": {"test": "node --test", "check": "node --check dist/app.js && node --check dist/model.js && node --check dist/data.js && node --check dist/core.js", "serve": "python3 -m http.server 8080 --directory dist"},
+  "engines": {"node": ">=22"}
+}
