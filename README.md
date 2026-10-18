@@ -30,27 +30,26 @@ Open **http://localhost:8080**. No npm installation is required. Use an HTTP ser
 
 The separate owner-private hosted site is [DevOps Universe 3D](https://devops-universe-3d.vishnukushwaha63.chatgpt.site). Repository pushes do not automatically update that hosted copy.
 
-## Explore the real 3D Kubernetes world
+## Explore the DevOps city (v1.3)
 
-**[Enter the Kubernetes world →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=kubernetes)** (owner-private hosted site)
+**[Enter the DevOps city →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=city)** (owner-private hosted site; the older `?world=kubernetes` link still opens the world)
 
-[![Geometry-derived preview of the nested Kubernetes world](docs/previews/kubernetes-world.png)](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=kubernetes)
+[![Geometry-derived overview of the connected DevOps city](docs/previews/devops-city.png)](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=city)
 
-*Preview derived from the actual 3D mesh geometry; this is not a browser screenshot. The interactive WebGL appearance still needs real-browser verification.*
+*Illustration rendered from the actual Three.js meshes, not a browser screenshot. Browser/WebGL appearance, label placement and phone performance remain unverified.*
 
-The dedicated **3D Kubernetes** view uses a perspective camera and a locally hosted Three.js engine. It is separate from the twelve lightweight isometric overview models.
+Use **Complete city** for the whole architecture or choose a district for focused learning. Start with **code to production & feedback**, press **Watch flow**, pause, inspect a destination, and replay as needed. Selecting a district selects its related journey. Playing a connected journey reopens the whole city so its dependencies stay visible.
 
-- **72 modeled components**, including **20 tiny configuration features**. Explore environment → cluster → control plane/worker → Pod → container and configuration details.
-- Rotate **horizontally and vertically**, pan, zoom, use labeled camera buttons or arrow keys on the focused canvas, and reset to Overview.
-- Select a mesh, label, hierarchy item or search result to fly closer. Ancestor breadcrumbs and Up one layer help you get back out.
-- Tiny details retain small geometry and reveal with proximity, direct selection or the explicit detail switch. Labels are filtered to reduce crowding.
-- Exploded view separates nested layers vertically. A clickable minimap shows the camera focus position.
-- Four separate flows provide **40 explained steps**: user request/response, delivery/startup, networking mechanisms and operations/recovery.
-- Three simulated failures cover missing environment configuration, a Service selector mismatch and denied registry access, with evidence and explained repairs.
-- Scan world sweeps an illustrative reveal plane over the modeled environment. It **does not discover or scan real infrastructure**.
-- The searchable text hierarchy, explanations, flow steps and failure exercises remain available if WebGL2 cannot start. The 3D world requires browser/device graphics support.
+- **153 modeled elements**, including **30 small configuration features**, across **10 districts**: delivery, Kubernetes, security, infrastructure as code, networking, cloud/platform, Linux/containers, data/messaging, observability and reliability/recovery.
+- **13 guided journeys / 121 explained steps**: the four existing Kubernetes journeys plus release/feedback, network/return paths, infrastructure changes, telemetry, asynchronous work, recovery, security, container lifecycle and cloud events/capacity.
+- An in-scene teaching card explains the active source, destination, operation/protocol, payload and purpose. Local operations, workflow decisions, control API calls and application network exchanges are labeled separately.
+- Radial **Scan city** reveals cyan outlines by distance from the city center, with a discovery counter and clickable discovery list. Reduced-motion preferences reveal everything immediately. This scans educational objects, never real infrastructure.
+- Distinct procedural workstations, servers, databases, pipelines, containers and routing objects; colored district platforms and clear labels provide context. Minor settings retain their small geometry until approached or explicitly selected.
+- Horizontal/vertical rotation, pan, zoom, keyboard/buttons, fly-to, hierarchy search, breadcrumbs, exploded layers, complete-city reset and a clickable minimap.
+- All **30 existing topic courses** are linked from their districts, including lessons, practical exercises and assessments. Three existing simulated Kubernetes failures remain available.
+- The searchable text explorer and teaching controls remain available when WebGL2 cannot initialize.
 
-The world represents one bounded example, **not every Kubernetes feature**. Its scope panel lists included concepts and exclusions. Logical API resources, policy relationships and Pod boundaries are distinguished from physical machines and literal TCP forwarding hops. Ordinary user HTTP traffic does not pass through the control plane.
+This is a **bounded educational architecture**, not an exhaustive inventory of all DevOps services, cloud products, Kubernetes APIs or vendor-specific settings. Every modeled element has purpose, input, output and caveats. The coverage panel explicitly lists exclusions. Practical exercises still require execution in your own intended lab; watching the model alone does not prove operational competence.
 
 The engine is bundled locally (Three.js 0.186.1, MIT; license in `dist/vendor/THREE-LICENSE.txt`) and is loaded only when this world is opened. No CDN, paid API, inference model or remote GPU service is used. Browser graphics hardware may be used for WebGL rendering.
 
@@ -187,6 +186,7 @@ dist/
   model.js                Projected isometric scene and traffic renderer
   model-assets.js         Detailed code-native illustrated component geometry
   world-data.js           Nested Kubernetes catalog, flows and failure scenarios
+  city-data.js            DevOps districts, component explanations and connected journeys
   world-core.js           Hierarchy, coordinates, detail visibility and flow gates
   world-scene.js          Perspective 3D scene, camera, picking and geometry
   world-ui.js             Explorer, search, inspector, flows and fallback UI

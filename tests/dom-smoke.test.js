@@ -126,3 +126,23 @@ test('The world text explorer selects tiny features, shows ancestry and explains
  for(const id of Object.keys(worldFlows)){$('world-flow').value=id;$('world-flow').dispatchEvent(new Event('change'));for(let i=1;i<worldFlows[id].steps.length;i++)$('world-next').click();assert.equal($('world-next').disabled,true);}
  $('world-help').click();assert.equal($('world-help-panel').hidden,false);$('world-expand').click();assert.equal($('world-expand').attributes['aria-expanded'],'true');$('world-expand').click();
 });
+
+test('City topic isolation, teaching HUD, replay and links to every course work without WebGL',async()=>{
+ const {worldNodes}=await import('../dist/world-data.js');
+ $('world-search').value='';$('world-search').dispatchEvent(new Event('input'));
+ const covered=new Set();
+ for(const district of worldNodes.filter(n=>n.district)){
+  $('city-district').value=district.id;$('city-district').dispatchEvent(new Event('change'));
+  assert.equal($('world-node-title').textContent,district.label);
+  assert.ok($('world-tree').children.length>1);assert.ok($('world-tree').children.length<worldNodes.length);
+  for(const b of $('city-lessons').children)covered.add(b.textContent.split(' →')[0]);
+ }
+ assert.equal(covered.size,30);
+ $('world-home').click();assert.equal($('city-district').value,'all');assert.equal($('world-tree').children.length,worldNodes.length);
+ $('city-flow-select').value='city-network';$('city-flow-select').dispatchEvent(new Event('change'));
+ assert.match($('city-step-title').textContent,/address/);$('city-forward').click();assert.match($('city-step-count').textContent,/Step 2 of/);
+ $('city-restart').click();assert.match($('city-step-count').textContent,/Step 1 of/);$('city-inspect').click();assert.equal($('world-node-title').textContent,'Public DNS');
+ $('city-back').click();assert.match($('city-step-count').textContent,/Step 1 of/);
+ $('city-district').value='observe-district';$('city-district').dispatchEvent(new Event('change'));
+ const lesson=$('city-lessons').children.find(b=>b.textContent.startsWith('Observability'));lesson.click();assert.equal($('course-name').textContent,'Observability');
+});

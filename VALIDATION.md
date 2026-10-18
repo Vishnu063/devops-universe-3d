@@ -40,3 +40,14 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 - The DOM fixture exercised tiny-feature search, ancestry, parent navigation, all flow steps and evidence-based repair choices without initializing WebGL.
 - A geometry-derived illustration was rendered with depth testing and visually inspected for hierarchy/placement. It is not a browser screenshot or a verification of WebGL shading and interaction.
 - Real browser/WebGL rendering, label layout, device performance and touch/gesture behavior remain unverified in this environment.
+
+## DevOps city (version 1.3)
+
+- Syntax checks cover all 15 application modules.
+- The suite validates 153 unique elements, 30 small features, 13 journeys / 121 steps and the three retained failure gates.
+- Real Three.js geometry is built and compared with the declared hierarchy, including nested Kubernetes features and the new districts.
+- Radial discovery is checked for near-before-far progression, complete coverage and an immediate reduced-motion reveal.
+- The DOM fixture checks topic isolation, complete-city reset, mirrored teaching steps, replay, destination inspection and links covering all 30 courses.
+- Networking checks distinguish DNS replies, metrics scrape direction, request return paths and infrastructure control APIs.
+- A city illustration is derived from the actual meshes. It does not verify browser shaders, scene label placement, touch controls or device performance.
+- Browser QA could not run because the supported browser-control capability is unavailable. Browser/WebGL, visual layout, accessibility and phone performance remain outstanding.

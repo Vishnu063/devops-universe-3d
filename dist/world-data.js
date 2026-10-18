@@ -1,3 +1,4 @@
+import {extendCity} from './city-data.js';
 // Explicit educational architecture. Coordinates and statuses are synthetic, not a live scan.
 const docs='https://kubernetes.io/docs/concepts/';
 const part=(id,label,parent,kind,position,size,purpose,input,output,notes,command='',reference=docs)=>({id,label,parent,kind,position,size,purpose,input,output,notes,command,reference,minor:kind==='feature'});
@@ -139,3 +140,5 @@ export const worldFailures={
  pull:{label:'Registry access denied',node:'runtime-a',flow:'delivery',blockedStep:9,evidence:'Simulated image-pull event: registry authentication denied for the intended image. The digest exists; the configured registry credential reference is missing for this workload.',options:['Remove every access control','Ignore ImagePullBackOff and mark the rollout healthy','Restore the approved registry identity/reference, then verify image pull and app health'],correct:2,explanation:'Repair only the required registry access through the approved identity/reference. Then confirm startup, readiness and user behavior.'}
 };
 export const worldScope={included:['Environment, control plane, two worker nodes and app replicas','Containers, init containers, helper sidecars and declared volumes','Probes, resource requests/limits, ports, environment and security settings','Workload/API, identity, scheduling, scaling and storage concepts','Distinct traffic, delivery, network-mechanism and operational flows'],notIncluded:['An exhaustive inventory of every Kubernetes API or plugin','A real cluster scanner, remote shell or automatic repair executor','A production-capacity or network-policy simulator','Detailed operator, Windows-node, multi-cluster, service-mesh or device-plugin implementations']};
+
+extendCity(worldNodes,worldFlows,worldScope,part);
