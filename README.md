@@ -30,6 +30,21 @@ Open **http://localhost:8080**. No npm installation is required. Use an HTTP ser
 
 The separate owner-private hosted site is [DevOps Universe 3D](https://devops-universe-3d.vishnukushwaha63.chatgpt.site). Repository pushes do not automatically update that hosted copy.
 
+## Trace one request, then break and recover it (v1.7)
+
+Open the existing [Kubernetes town](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=kubernetes) and choose **Trace a Kubernetes request**. The same canvas now walks through nine stages: DNS query/answer, public HTTPS, private HTTP to ingress, logical endpoint selection, the application request and the three response boundaries.
+
+- **Focus this connection** dims unrelated objects and shows only the current directed path. **Play this step** animates a labeled illustrative packet and pauses on the same step. Next/Previous remain manual.
+- **Show boundaries** draws example cloud network, subnet, cluster, Linux host, Pod and app-container scopes. These are authored teaching frames, not discovered topology or guarantees of isolation. Namespaces alone do not enforce networking isolation.
+- The compact explanation below the canvas includes initiator/protocol/server port, containment breadcrumbs, matching configuration, read-only inspection commands, synthetic output and a prediction question. Expand only the evidence or exercise you want to read.
+- Three deterministic exercises demonstrate mismatched Service selectors, policy denial (assuming an enforcing implementation), and missing required environment configuration. Wrong fixes are rejected. A matched change is still **unverified** until simulated endpoint, readiness and user-path checks pass. Jumping to later steps cannot bypass the failure gate.
+- The **Coverage tracker** lists modeled resources, authored explanations, dedicated interactive exercises and explicit gaps for each of the thirteen towns. Other towns do not inherit Kubernetes exercise completion. This is not a complete DevOps inventory or a mastery certificate.
+- Existing connection details now show containment scope and structured transport metadata where available. Older abbreviated flows explicitly say when complete transport metadata is missing rather than guessing ports.
+
+Current inventory: **190 elements, 32 minor features, 37 flows, 332 steps**. **54 automated tests pass**. Real browser/WebGL rendering, device interaction, accessible layout and performance remain unverified. The new controls are responsive in code, but have not been tested on a physical phone.
+
+The hostname `shop.example.invalid`, documentation address `192.0.2.10`, Pod IP, manifests, statuses and outputs are examples. The website neither executes commands nor connects to a cluster. The intended behavior is based on the Kubernetes documentation for [Services](https://kubernetes.io/docs/concepts/services-networking/service/), [EndpointSlices](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/), [debugging Services](https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/) and [NetworkPolicy enforcement](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
+
 ## Connected DevOps city (v1.6)
 
 **[Open the complete city →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=city)** (existing owner-private website)
@@ -46,7 +61,7 @@ The same page and canvas now contain **13 towns**: Kubernetes, Git, Docker, Jenk
 - DNS answers precede a separate web connection. The networking example terminates public HTTPS at a load balancer, with a separate private HTTP :80 ingress connection. Terraform controls cloud APIs; Prometheus initiates scrapes; worker runtimes initiate registry pulls.
 - Select an arrow for its explanation and configured transport. Filter connections, pause illustrative traffic, rotate vertically/horizontally, pan, zoom or enter full screen. Small features remain small and reveal on approach, selection or **Reveal tiny features**.
 
-Current coverage is **190 elements, 32 small features, 36 flows and 323 explained steps**, with all 30 existing course links retained. The city is a bounded teaching model, not every vendor feature or every possible production topology. Ports are labeled example configurations. No live network, cloud account or cluster is connected. Browser/WebGL visuals, mobile gestures and performance still need real-device verification; automated geometry, topology and DOM checks pass.
+At v1.6, coverage was **190 elements, 32 small features, 36 flows and 323 explained steps**, with all 30 existing course links retained. The city is a bounded teaching model, not every vendor feature or every possible production topology. Ports are labeled example configurations. No live network, cloud account or cluster is connected. Browser/WebGL visuals, mobile gestures and performance still need real-device verification; automated geometry, topology and DOM checks pass.
 
 Reference documentation: [Prometheus scrape model](https://prometheus.io/docs/introduction/first_steps/), [AWS stateful security groups and stateless ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/nacl-examples.html), [Terraform providers](https://developer.hashicorp.com/terraform/language/providers), [Docker](https://docs.docker.com/), [Jenkins](https://www.jenkins.io/doc/), [Ansible](https://docs.ansible.com/), [Git](https://git-scm.com/docs).
 

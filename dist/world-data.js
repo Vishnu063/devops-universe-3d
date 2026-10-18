@@ -1,3 +1,4 @@
+import {installRequestLab} from './request-lab.js';
 import {installTowns} from './town-models.js';
 import {installK8sModel} from './k8s-model.js';
 import {installK8sFlows} from './k8s-learning.js';
@@ -151,3 +152,5 @@ installK8sFlows(worldFlows);
 installK8sModel(worldNodes,worldFlows);
 
 installTowns(worldNodes,worldFlows,worldScope);
+
+installRequestLab(worldFlows);

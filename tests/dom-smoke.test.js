@@ -166,7 +166,7 @@ test('Watch-first Kubernetes lessons isolate concepts, preserve context across s
  for(let i=0;i<k8sLessons.length;i++){
   $('k8s-lesson').value=String(i);$('k8s-lesson').dispatchEvent(new Event('change'));
   const lesson=k8sLessons[i];assert.equal($('world-tree').children.length,lesson.nodes.length);assert.equal($('k8s-goal').textContent,lesson.goal);assert.equal($('k8s-step-strip').hidden,false);
-  assert.ok($('world-flow').children.every(o=>o.value.startsWith('learn-k8s-')||['k8s-model','traffic','delivery','networking','operations'].includes(o.value)));
+  assert.ok($('world-flow').children.every(o=>o.value.startsWith('learn-k8s-')||['k8s-model','learn-request-complete','traffic','delivery','networking','operations'].includes(o.value)));
   for(let s=1;s<lesson.steps.length;s++){$('k8s-next-step').click();assert.equal($('world-tree').children.length,lesson.nodes.length);assert.equal($('city-district').value,'cluster');}
   assert.equal($('k8s-next-step').disabled,true);assert.equal($('k8s-strip-title').textContent,lesson.steps.at(-1).title);
   const wrong=(lesson.correct+1)%lesson.options.length;$('k8s-answers').children[wrong].click();assert.match($('k8s-answer-feedback').textContent,/Try again/);$('k8s-answers').children[lesson.correct].click();assert.match($('k8s-answer-feedback').textContent,/Correct/);
@@ -195,4 +195,21 @@ test('Each new town opens its model in the same workspace and city steps preserv
  $('world-city').click();const p=townProfiles.environment;assert.equal($('world-flow').value,p.flowId);
  for(let i=1;i<worldFlows[p.flowId].steps.length;i++){$('world-next').click();assert.equal($('world-flow').value,p.flowId);assert.equal($('city-topic-select').value,'all');assert.match($('world-step-counter').textContent,new RegExp(`Step ${i+1} of`));}
  $('world-tree').children.find(b=>b.textContent.includes('Docker & registry')).click();assert.equal($('world-flow').value,townProfiles['docker-district'].flowId);
+});
+
+test('The request lab teaches each boundary, gates all three failures and restores the existing town view',async()=>{
+ const {requestFaults,requestQuestions}=await import('../dist/request-lab.js');
+ $('teach-start').click();assert.equal($('world-flow').value,'learn-request-complete');assert.equal($('teach-controls').hidden,false);assert.equal($('teach-panel').hidden,false);assert.equal($('k8s-connections').disabled,true);assert.match($('teach-title').textContent,/application address/);assert.match($('teach-transport').textContent,/server port 53/);
+ $('teach-answers').children[requestQuestions[0][2]].click();assert.match($('teach-answer-feedback').textContent,/Correct/);$('teach-next').click();assert.match($('teach-title').textContent,/DNS answer/);$('teach-next').click();assert.match($('teach-transport').textContent,/server port 443/);
+ for(const [id,f]of Object.entries(requestFaults)){
+  $('teach-fault').value=id;$('teach-break').click();assert.equal($('teach-next').disabled,true);assert.equal($('teach-play').disabled,true);assert.match($('teach-health').textContent,/Blocked/);assert.equal($('teach-verify').disabled,true);const blocked=$('world-step-counter').textContent;
+  $('world-step-list').children.at(-1).querySelectorAll('button')[0].click();assert.equal($('world-step-counter').textContent,blocked);assert.match($('teach-output').textContent,/SIMULATED/);
+  if(id==='selector')assert.match($('teach-config').textContent,/app: store/);if(id==='env')assert.match($('teach-config').textContent,/reference is absent/);if(id==='policy')assert.match($('teach-config').textContent,/ingress: \[\]/);
+  $('teach-repair').value=Object.values(requestFaults).find(x=>x.action!==f.action).action;$('teach-apply').click();assert.match($('teach-repair-feedback').textContent,/does not address/);assert.equal($('teach-verify').disabled,true);
+  $('teach-repair').value=f.action;$('teach-apply').click();assert.equal($('teach-next').disabled,true);assert.equal($('teach-verify').disabled,false);assert.match($('teach-health').textContent,/verification pending/);$('teach-verify').click();assert.equal($('teach-next').disabled,false);assert.match($('teach-repair-feedback').textContent,/verification passed/);assert.ok($('teach-timeline').children.length>=3);
+ }
+ for(let i=0;i<9;i++)$('teach-next').click();assert.equal($('teach-next').disabled,true);assert.match($('teach-title').textContent,/encrypted client response/);assert.match($('teach-boundary-note').textContent,/Outside Kubernetes/);
+ $('teach-exit').click();assert.equal($('teach-controls').hidden,true);assert.equal($('world-flow').value,'k8s-model');assert.equal($('k8s-connections').disabled,false);
+ $('coverage-town').value='docker-district';$('coverage-town').dispatchEvent(new Event('change'));assert.match($('coverage-rows').textContent,/Not yet/);$('coverage-rows').children[0].querySelectorAll('button')[0].click();assert.equal($('city-district').value,'docker-district');
+ assert.equal([...html.matchAll(/id="world-canvas"/g)].length,1);
 });

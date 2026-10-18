@@ -91,3 +91,14 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 - The scan radius now follows the actual expanded city footprint rather than a fixed smaller-city radius. Existing scan completion/reduced-motion tests still pass.
 - A geometry-derived city overview was rendered and inspected. It does not validate WebGL, real browser layout, accessibility, full-screen permissions, phone gestures or frame rate. Supported browser control remains unavailable; no substitute browser was installed or started.
 - Protocols/ports are explicit illustrative configurations, not universal defaults. No live DevOps service was provisioned, queried or scanned.
+
+## Focused request teaching and coverage (version 1.7)
+
+- 54 automated checks pass. Current inventory: 190 modeled elements, 32 minor features, 13 towns, 37 flows and 332 steps.
+- The new nine-stage request scenario pairs DNS and three independent transport exchanges, keeping Service endpoint selection logical. Tests ensure ordinary HTTP excludes control-plane components and the public TLS/backend HTTP boundaries are explicit examples.
+- Pure-state tests cover all three faults, rejected unrelated repairs, immutable transitions, jump clamping and mandatory simulated verification after a matched change. No real network or Kubernetes action is performed.
+- DOM tests exercise start/exit in the existing canvas, step navigation, prediction feedback, all three before/change/verify sequences, evidence consistency, failure gating through the global step list and per-town coverage navigation.
+- Real Three.js tests validate the request profile’s world-space positions, unrelated-material dimming/restoration, one active route, packet caption, blocked-packet visibility and six finite boundary-frame geometries.
+- Per-town coverage verifies that planned topics are not claimed as modeled/explained and other towns are not claimed to have Kubernetes-specific interactive exercises. Coverage describes authored features, not learner competency.
+- Documentation and the UI explicitly identify synthetic outputs, placeholders and legacy flows that lack structured transport metadata.
+- Supported browser control is unavailable in this managed environment. No preview server, browser installation or alternate browser-control path was used. Browser/WebGL appearance, label overlap, screen-reader/keyboard usability, real full-screen behavior and phone frame rate/gestures remain unverified. The deployment result verifies publication only.
