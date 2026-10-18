@@ -24,7 +24,7 @@ jobs:
           name: static-learning-site
           path: dist
   deploy:
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && vars.ENABLE_PAGES == 'true'
     needs: check
     runs-on: ubuntu-latest
     permissions:

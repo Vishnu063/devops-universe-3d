@@ -68,7 +68,13 @@ Browser visual QA must still be performed on target browsers. Test mobile orbit/
 
 Upload the contents of **dist/** to any static host. All application paths are relative, so GitHub Pages project URLs are supported.
 
-The included GitHub Actions **Check and publish learning site** workflow validates the project and prepares a Pages deployment after pushes to `main`. To publish on GitHub Pages, select **Settings → Pages → Source → GitHub Actions**. Once enabled and a successful deployment runs, the expected project URL is `https://vishnu063.github.io/devops-universe-3d/`. This URL is not claimed as live until GitHub reports a successful deployment.
+The included GitHub Actions **Check and publish learning site** workflow validates the project and uploads the static-site artifact after pushes to `main`. GitHub Pages deployment is opt-in so checks work before hosting is configured. To publish on GitHub Pages:
+
+1. Select **Settings → Pages → Source → GitHub Actions**.
+2. Add the repository Actions variable **ENABLE_PAGES** with the value **true** under **Settings → Secrets and variables → Actions → Variables**.
+3. Run the workflow manually or push a change to `main`.
+
+Once enabled and a successful deployment runs, the expected project URL is `https://vishnu063.github.io/devops-universe-3d/`. This URL is not claimed as live until GitHub reports a successful deployment.
 
 The hosted preview supplied with this project is private to the site owner by default. Changing the GitHub repository does not automatically update that separate preview; GitHub Pages uses repository workflow deployments.
 
