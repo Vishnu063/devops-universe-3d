@@ -102,3 +102,14 @@ All models use distinct code-native isometric asset silhouettes. Automated check
 - Per-town coverage verifies that planned topics are not claimed as modeled/explained and other towns are not claimed to have Kubernetes-specific interactive exercises. Coverage describes authored features, not learner competency.
 - Documentation and the UI explicitly identify synthetic outputs, placeholders and legacy flows that lack structured transport metadata.
 - Supported browser control is unavailable in this managed environment. No preview server, browser installation or alternate browser-control path was used. Browser/WebGL appearance, label overlap, screen-reader/keyboard usability, real full-screen behavior and phone frame rate/gestures remain unverified. The deployment result verifies publication only.
+
+## City-first discovery, beginner progression and 2D fallback (version 1.8)
+
+- 61 automated checks pass. Inventory: 190 elements, 32 minor features, 13 towns, 30 distinct topic landmarks, 67 flows and 419 steps. Thirty flows are small beginner subsets/grouping views, not new production topologies.
+- State tests validate idempotent discovery, complete radial coverage, corrupted storage, topic ID validation, step clamping and strict separation from course/practice completion.
+- Every beginner profile has three or four items, valid endpoints and the same configured exchange pairs where network transport exists. All prerequisites appear earlier in the teaching order.
+- Actual Three.js tests exercise dark undiscovered landmarks, orange discovery material/beacons, and restoration of normal teaching materials outside city exploration.
+- DOM fixtures exercise the city entry controls, all thirty beginner concepts, last-concept resume, saved town steps, Back navigation, inline lesson/exercise/failure content and the keyboard-selectable SVG map. A reduced-motion 2D scan reaches all topics without WebGL and leaves study completion unchanged.
+- The request-lab and retained learning/failure tests still pass. Full-screen card containment is checked structurally; real full-screen usability remains unverified.
+- Repository metadata confirmed Pages is not enabled. The workflow supports an explicit manual public deployment input after repository setup; public deployment was not attempted without that required setting. The existing Site remains owner-private.
+- Supported browser control remains unavailable. No substitute browser, preview server or browser-control path was used. Mock DOM/geometry checks do not prove live WebGL rendering, visual smoothness, label readability, accessibility or phone performance.

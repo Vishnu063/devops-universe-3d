@@ -4,6 +4,11 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+    inputs:
+      publish_pages:
+        description: Publish publicly after enabling Settings > Pages > GitHub Actions
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -24,7 +29,7 @@ jobs:
           name: static-learning-site
           path: dist
   deploy:
-    if: github.event_name != 'pull_request' && vars.ENABLE_PAGES == 'true'
+    if: github.event_name != 'pull_request' && (vars.ENABLE_PAGES == 'true' || inputs.publish_pages == true)
     needs: check
     runs-on: ubuntu-latest
     permissions:

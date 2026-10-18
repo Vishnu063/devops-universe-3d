@@ -4,11 +4,11 @@
 
 A free, topic-first DevOps learning website with staged lessons, inspectable architecture models, practical exercises, troubleshooting cases and guided projects. No API key, paid AI model or cloud account is needed to use the site.
 
-## Live site preview
+## Earlier homepage preview
 
 [![Live DevOps Universe 3D homepage with the topic picker and staged learning workspace](docs/screenshots/live-preview.jpg)](https://devops-universe-3d.vishnukushwaha63.chatgpt.site)
 
-*Actual screenshot of the deployed topic-learning homepage, captured 18 October 2026. The live site requires owner access.*
+*Historical screenshot of the topic-learning homepage, captured 18 October 2026. Version 1.8 starts in the city instead. The hosted site requires owner access.*
 
 ## 3D model sample
 
@@ -30,6 +30,34 @@ Open **http://localhost:8080**. No npm installation is required. Use an HTTP ser
 
 The separate owner-private hosted site is [DevOps Universe 3D](https://devops-universe-3d.vishnukushwaha63.chatgpt.site). Repository pushes do not automatically update that hosted copy.
 
+## City-first exploration and beginner learning (v1.8)
+
+**[Open the city homepage →](https://devops-universe-3d.vishnukushwaha63.chatgpt.site)** (owner-private)
+
+The homepage now opens the existing 3D city. Choose **Explore freely** or **Start learning**; **Resume** appears after starting the beginner path. Direct Kubernetes and model links still work.
+
+- **Scan and discover:** the existing center-out ring reveals thirty distinct course landmarks. Seven tool/topic landmarks start dark in city exploration; discoveries reveal them with orange glow and markers. The HUD saves discovered topics in this browser. Scans do not fly the camera to each discovery, and repeated scans do not duplicate progress.
+- **Nothing is locked:** a searchable catalog opens every course without a scan. Discovery means you encountered a topic, not that you read, understood or practiced it. Explicitly inspecting a landmark or starting its beginner model can also record discovery.
+- **Learn inside the discovery card:** read all three existing lessons, the exercise/environment/commands/cleanup and the failure case with its hint/explanation. Choose **Inspect** to move the camera deliberately, open its small model, or continue in the full course workspace. The card is available inside full screen.
+- **Beginner path:** thirty small views each show three or four model items, use the existing prerequisite order, display one lesson goal and recommended prerequisites, and provide Previous/Next concept. These are subsets of the existing flows, not thirty new production architectures. Containment links remain explicitly logical.
+- **Consistent navigation:** Home returns to the full city; Back restores the previous learning view; Reset changes the camera without deleting progress. Town flow step/selected component and the last beginner concept are saved separately from course completion. Live camera pose and simulated failure state are not persisted across reloads. Back within the session preserves the request exercise’s state.
+- **Simpler controls:** scan, home, back, pause/resume, view choice, town choice and full screen stay visible. Extra controls live under More controls. Beginner labels add plain-English roles; label collisions hide lower-priority captions rather than drawing them over each other.
+- **2D map:** a keyboard-selectable SVG map uses the same towns/components and directed flow data. It is available by choice and automatically appears when WebGL cannot start. Its scan is illustrative; it is not live networking or infrastructure discovery.
+
+Current inventory: **190 elements, 32 minor features, 13 towns, 30 topic landmarks, 67 flows and 419 steps**. The 30 new flows are bounded beginner subsets of existing content. There are **61 automated tests**; real-browser and phone testing remain pending. Progress storage is browser-local with an explicit session-only fallback and progress export/reset support.
+
+### Public GitHub Pages setup remains pending
+
+The repository is public, but GitHub repository metadata currently reports `has_pages: false`. The connected GitHub tools cannot change repository Pages settings or dispatch a new workflow. The existing owner-private Site was preserved; it was not made public.
+
+To publish this static site publicly:
+
+1. In [repository Pages settings](https://github.com/Vishnu063/devops-universe-3d/settings/pages), choose **GitHub Actions** as the publishing source.
+2. In [Actions](https://github.com/Vishnu063/devops-universe-3d/actions/workflows/pages.yml), run **Check and publish learning site** on `main` with **publish_pages** selected. The workflow runs checks before deployment and reports the resulting URL.
+3. For automatic public deployments on later pushes, set the repository Actions variable `ENABLE_PAGES` to `true`.
+
+No public Pages URL is claimed until a successful deployment exists. [GitHub’s publishing-source instructions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) describe the repository setting. Browser/WebGL visuals, real full screen, screen-reader usability, touch gestures and frame rate remain unverified because supported browser control is unavailable here.
+
 ## Trace one request, then break and recover it (v1.7)
 
 Open the existing [Kubernetes town](https://devops-universe-3d.vishnukushwaha63.chatgpt.site/?world=kubernetes) and choose **Trace a Kubernetes request**. The same canvas now walks through nine stages: DNS query/answer, public HTTPS, private HTTP to ingress, logical endpoint selection, the application request and the three response boundaries.
@@ -41,7 +69,7 @@ Open the existing [Kubernetes town](https://devops-universe-3d.vishnukushwaha63.
 - The **Coverage tracker** lists modeled resources, authored explanations, dedicated interactive exercises and explicit gaps for each of the thirteen towns. Other towns do not inherit Kubernetes exercise completion. This is not a complete DevOps inventory or a mastery certificate.
 - Existing connection details now show containment scope and structured transport metadata where available. Older abbreviated flows explicitly say when complete transport metadata is missing rather than guessing ports.
 
-Current inventory: **190 elements, 32 minor features, 37 flows, 332 steps**. **54 automated tests pass**. Real browser/WebGL rendering, device interaction, accessible layout and performance remain unverified. The new controls are responsive in code, but have not been tested on a physical phone.
+At v1.7: **190 elements, 32 minor features, 37 flows, 332 steps**, with **54 automated tests**. Real browser/WebGL rendering, device interaction, accessible layout and performance remain unverified. The new controls are responsive in code, but have not been tested on a physical phone.
 
 The hostname `shop.example.invalid`, documentation address `192.0.2.10`, Pod IP, manifests, statuses and outputs are examples. The website neither executes commands nor connects to a cluster. The intended behavior is based on the Kubernetes documentation for [Services](https://kubernetes.io/docs/concepts/services-networking/service/), [EndpointSlices](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/), [debugging Services](https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/) and [NetworkPolicy enforcement](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
 

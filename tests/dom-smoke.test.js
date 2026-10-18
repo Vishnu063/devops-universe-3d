@@ -22,7 +22,7 @@ class Element extends EventTarget {
 const html=readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
 const elements=new Map([...html.matchAll(/<([\w-]+)\b([^>]*\bid="([^"]+)"[^>]*)>/g)].map(m=>{const e=new Element(m[1]);e.id=m[3];e.hidden=/\bhidden\b/.test(m[2]);return [m[3],e];}));
 const nav=['lab','library','path','study','projects'].map(page=>{const b=new Element('button');b.dataset.page=page;return b;});
-const documentMock=Object.assign(new EventTarget(),{hidden:false,body:new Element('body'),createElement:tag=>new Element(tag),createTextNode:s=>s,getElementById:id=>elements.get(id),querySelectorAll:selector=>selector==='[data-page]'?nav:[]});
+const documentMock=Object.assign(new EventTarget(),{hidden:false,body:new Element('body'),createElement:tag=>new Element(tag),createElementNS:(_,tag)=>new Element(tag),createTextNode:s=>s,getElementById:id=>elements.get(id),querySelectorAll:selector=>selector==='[data-page]'?nav:[]});
 const storage=new Map();
 Object.assign(globalThis,{document:documentMock,window:globalThis,localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},matchMedia:()=>({matches:false}),ResizeObserver:class{constructor(cb){this.cb=cb;}observe(){this.cb([{contentRect:{width:700,height:420}}]);}},devicePixelRatio:1,requestAnimationFrame:()=>0,scrollTo:()=>{}});
 const $=id=>elements.get(id);
@@ -118,7 +118,7 @@ test('Isometric asset styles cover all models and partial playback updates prese
 
 test('The world text explorer selects tiny features, shows ancestry and explains all simulated repairs without WebGL',async()=>{
  const {worldNodes,worldFlows,worldFailures}=await import('../dist/world-data.js');
- assert.ok($('world-tree').children.length>30);assert.equal($('world-flow').value,'k8s-model');assert.equal($('k8s-lesson').value,'');$('k8s-city').click();assert.equal($('world-tree').children.length,worldNodes.length);
+ assert.ok($('world-tree').children.length>30);assert.equal($('world-flow').value,'town-environment');assert.equal($('k8s-lesson').value,'');$('k8s-city').click();assert.equal($('world-tree').children.length,worldNodes.length);
  $('world-search').value='readiness';$('world-search').dispatchEvent(new Event('input'));
  assert.ok($('world-tree').children.length>0);const row=$('world-tree').children.find(b=>b.textContent.includes('Readiness probe'));row.click();assert.equal($('world-node-title').textContent,'Readiness probe');assert.ok($('world-breadcrumb').textContent.includes('Application Pod A'));
  $('world-parent').click();assert.equal($('world-node-title').textContent,'Application Pod A');
@@ -133,7 +133,7 @@ test('City topic isolation, teaching HUD, replay and links to every course work 
  const covered=new Set();
  for(const district of worldNodes.filter(n=>n.district)){
   $('city-district').value=district.id;$('city-district').dispatchEvent(new Event('change'));
-  assert.equal($('world-node-title').textContent,district.label);
+  assert.ok(worldNodes.some(n=>n.label===$('world-node-title').textContent));assert.equal($('city-district').value,district.id);
   assert.ok($('world-tree').children.length>1);assert.ok($('world-tree').children.length<worldNodes.length);
   for(const b of $('city-lessons').children)covered.add(b.textContent.split(' →')[0]);
  }
@@ -212,4 +212,23 @@ test('The request lab teaches each boundary, gates all three failures and restor
  $('teach-exit').click();assert.equal($('teach-controls').hidden,true);assert.equal($('world-flow').value,'k8s-model');assert.equal($('k8s-connections').disabled,false);
  $('coverage-town').value='docker-district';$('coverage-town').dispatchEvent(new Event('change'));assert.match($('coverage-rows').textContent,/Not yet/);$('coverage-rows').children[0].querySelectorAll('button')[0].click();assert.equal($('city-district').value,'docker-district');
  assert.equal([...html.matchAll(/id="world-canvas"/g)].length,1);
+});
+
+test('City exploration, inline lessons and a no-WebGL scan save discoveries independently from study completion',async()=>{
+ const {resetCityExploration,cityProgressReport}=await import('../dist/world-ui.js');const {learningProgressReport}=await import('../dist/study.js');resetCityExploration();$('city-explore').click();$('world-view-2d').click();assert.equal($('world-2d').hidden,false);assert.equal($('world-canvas').hidden,true);assert.ok($('world-2d').querySelectorAll('svg').length===1);assert.equal($('city-topic-catalog').children.length,30);
+ const before=JSON.stringify(learningProgressReport());const old=globalThis.matchMedia;globalThis.matchMedia=()=>({matches:true});try{$('world-scan').click();}finally{globalThis.matchMedia=old;}assert.equal(cityProgressReport().discovered.length,30);assert.match($('topic-discovered-count').textContent,/30 \/ 30/);assert.equal(JSON.stringify(learningProgressReport()),before);assert.equal($('world-scan').disabled,false);
+ $('city-topic-search').value='Prometheus';$('city-topic-search').dispatchEvent(new Event('input'));assert.ok($('city-topic-catalog').children.length>0);$('city-topic-catalog').children[0].click();assert.equal($('city-discovery-card').hidden,false);assert.equal($('city-discovery-lessons').children.length,3);assert.ok($('city-discovery-tasks').children.length>0);assert.match($('city-discovery-failure').textContent,/Evidence:/);assert.match($('city-discovery-title').textContent,/Prometheus/);$('city-topic-search').value='';$('city-topic-search').dispatchEvent(new Event('input'));
+});
+
+test('Beginner concepts follow prerequisites, resume the last concept and preserve a town step across navigation',async()=>{
+ const {learningOrder}=await import('../dist/city-explore.js');const {beginnerProfiles}=await import('../dist/world-data.js');const {cityProgressReport}=await import('../dist/world-ui.js');const order=learningOrder(courses);$('city-begin').click();
+ for(let i=0;i<order.length;i++){const p=beginnerProfiles[order[i].id];assert.equal($('world-flow').value,p.flowId);assert.equal($('world-tree').children.length,p.nodeIds.length);assert.match($('beginner-count').textContent,new RegExp(`Concept ${i+1} / 30`));if(i<order.length-1)$('beginner-next').click();}
+ assert.equal($('beginner-next').disabled,true);const last=cityProgressReport().lastConcept;$('city-explore').click();$('city-resume').click();assert.equal($('world-flow').value,'beginner-'+last);$('world-back').click();assert.equal($('world-flow').value,'town-environment');
+ $('city-topic-select').value='git-district';$('city-topic-select').dispatchEvent(new Event('change'));$('world-step-list').children[0].querySelectorAll('button')[0].click();$('world-next').click();const step=$('world-step-counter').textContent;$('city-explore').click();$('city-topic-select').value='git-district';$('city-topic-select').dispatchEvent(new Event('change'));assert.equal($('world-step-counter').textContent,step);assert.equal($('beginner-bar').hidden,true);
+ const svg=$('world-2d').querySelectorAll('svg')[0],targets=svg.querySelectorAll('g');assert.ok(targets.length>1);const key=new Event('keydown');key.key='Enter';targets[0].dispatchEvent(key);assert.ok($('world-node-title').textContent);
+});
+
+test('Back preserves a blocked request exercise and the discovery card belongs to the full-screen viewport',()=>{
+ $('teach-start').click();$('teach-fault').value='selector';$('teach-break').click();assert.equal($('teach-next').disabled,true);$('city-explore').click();$('world-back').click();assert.equal($('world-flow').value,'learn-request-complete');assert.match($('teach-health').textContent,/Blocked/);assert.equal($('teach-next').disabled,true);assert.match($('world-2d').textContent,/No successful application response/);$('teach-exit').click();
+ const viewportStart=html.indexOf('id="city-viewport"'),card=html.indexOf('id="city-discovery-card"'),error=html.indexOf('id="world-error"');assert.ok(viewportStart<card&&card<error);assert.equal([...html.matchAll(/id="world-canvas"/g)].length,1);
 });

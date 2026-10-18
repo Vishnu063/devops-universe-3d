@@ -1,3 +1,6 @@
+import {installBeginnerFlows} from './city-explore.js';
+import {courses} from './curriculum.js';
+import {townProfiles} from './town-models.js';
 import {installRequestLab} from './request-lab.js';
 import {installTowns} from './town-models.js';
 import {installK8sModel} from './k8s-model.js';
@@ -143,7 +146,7 @@ export const worldFailures={
  selector:{label:'Service selector mismatch',node:'service',flow:'traffic',blockedStep:5,evidence:'Simulated Pods are Ready with label app=shop. The Service selector is app=store, so it has no matching application endpoints.',options:['Restart DNS until labels change','Correct the reviewed Service selector, inspect EndpointSlices and test the endpoint','Delete the application database'],correct:1,explanation:'Repair the selector-to-label relationship, confirm eligible EndpointSlices and verify actual application traffic.'},
  pull:{label:'Registry access denied',node:'runtime-a',flow:'delivery',blockedStep:9,evidence:'Simulated image-pull event: registry authentication denied for the intended image. The digest exists; the configured registry credential reference is missing for this workload.',options:['Remove every access control','Ignore ImagePullBackOff and mark the rollout healthy','Restore the approved registry identity/reference, then verify image pull and app health'],correct:2,explanation:'Repair only the required registry access through the approved identity/reference. Then confirm startup, readiness and user behavior.'}
 };
-export const worldScope={included:['Environment, control plane, two worker nodes and app replicas','Containers, init containers, helper sidecars and declared volumes','Probes, resource requests/limits, ports, environment and security settings','Workload/API, identity, scheduling, scaling and storage concepts','Distinct traffic, delivery, network-mechanism and operational flows'],notIncluded:['An exhaustive inventory of every Kubernetes API or plugin','A real cluster scanner, remote shell or automatic repair executor','A production-capacity or network-policy simulator','Detailed operator, Windows-node, multi-cluster, service-mesh or device-plugin implementations']};
+export const worldScope={included:['Environment, control plane, three worker nodes and app replicas','Containers, init containers, helper sidecars and declared volumes','Probes, resource requests/limits, ports, environment and security settings','Workload/API, identity, scheduling, scaling and storage concepts','Distinct traffic, delivery, network-mechanism and operational flows'],notIncluded:['An exhaustive inventory of every Kubernetes API or plugin','A real cluster scanner, remote shell or automatic repair executor','A production-capacity or network-policy simulator','Detailed operator, Windows-node, multi-cluster, service-mesh or device-plugin implementations']};
 
 extendCity(worldNodes,worldFlows,worldScope,part);
 
@@ -154,3 +157,5 @@ installK8sModel(worldNodes,worldFlows);
 installTowns(worldNodes,worldFlows,worldScope);
 
 installRequestLab(worldFlows);
+
+export const beginnerProfiles=installBeginnerFlows(worldNodes,worldFlows,townProfiles,courses);
