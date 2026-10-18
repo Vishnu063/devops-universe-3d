@@ -4,8 +4,8 @@
 
 Automated validation performed during implementation:
 
-- Syntax checks for all nine application JavaScript modules.
-- 25 Node test cases passed.
+- Syntax checks for all ten application JavaScript modules.
+- 26 Node test cases passed.
 - The suite includes four passing Python integration tests using a real ephemeral loopback HTTP server, a temporary SQLite database, expected health/products/metrics responses and a 404 route.
 - All 30 courses were selected through the DOM fixture; lesson navigation, quiz retries and evidence checkpoints were exercised.
 - Known-model deep links and invalid-link fallback were checked.
@@ -27,3 +27,7 @@ Automated validation performed during implementation:
 - GitHub Pages hosting unless separately enabled and successfully deployed.
 
 The project provides instructions for these operations. They must be recorded as executed only after a real run. Simulated recovery and self-reported practical milestones are explicitly labeled in the interface.
+
+## Illustrated model update
+
+All models use distinct code-native isometric asset silhouettes. Automated checks cover asset classification, focus/expand controls, routed-connection hit testing, drawable scenes after partial playback updates, and finite drawing coordinates. The README animation was regenerated from the scene renderer and representative rendered frames were visually inspected. These rendered assets are not a real-browser recording; mobile/browser visual verification remains outstanding.

@@ -104,3 +104,14 @@ test('All-progress reset clears courses as well as architecture completion',()=>
   nav[2].click();$('reset-progress').click();$('reset-progress').click();
   const clean=parseLearning(storage.get('devops-universe-courses-v1'),courses,projects);assert.equal(Object.keys(clean.courses).length,0);assert.equal(Object.keys(clean.projects).length,0);assert.match($('reading-progress').textContent,/0 of 3/);
 });
+
+
+test('Isometric asset styles cover all models and partial playback updates preserve a drawable scene',async()=>{
+ const {ArchitectureModel}=await import('../dist/model.js');const {assetKind,assetKinds}=await import('../dist/model-assets.js');
+ const canvas=new Element('canvas'),labels=new Element(),model=new ArchitectureModel(canvas,labels,()=>{});
+ for(const lab of labs){model.setLab(lab);for(const node of lab.nodes)assert.ok(assetKinds.includes(assetKind(lab,node)));model.update({step:1,selected:lab.nodes[0].id,playing:true,failed:false});model.update({playing:false});assert.equal(model.step,1);assert.equal(model.selected,lab.nodes[0].id);model.setFocus(true);model.draw(800);model.setFocus(false);model.draw(800);}
+ assert.equal(assetKind(labs[0],labs[0].nodes.find(n=>n.id==='browser')),'workstation');
+ assert.equal(assetKind(labs[0],labs[0].nodes.find(n=>n.id==='db')),'database');
+ $('focus-step').click();assert.equal($('focus-step').attributes['aria-pressed'],'true');$('focus-step').click();assert.equal($('focus-step').attributes['aria-pressed'],'false');
+ $('expand-model').click();assert.equal($('expand-model').attributes['aria-expanded'],'true');$('expand-model').click();assert.equal($('expand-model').attributes['aria-expanded'],'false');
+});

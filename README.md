@@ -75,10 +75,11 @@ The **Learning library** retains the 30-area field guide and a 26-row AWS/Azure/
 - Click a component for input, output, purpose, tools and a misconception to avoid.
 - Click a connection, or use the numbered text journey, to inspect its step.
 - Drag to orbit, use zoom/rotation buttons or switch to the flat **2D map**.
+- Choose **Focus step** to dim unrelated objects and hide other links, or **Expand model** for more viewing room while retaining the component inspector.
 - Use **Next step** or adjustable playback to follow one connection at a time.
 - Inject a failure, inspect evidence and select a recovery. Unresolved failures block advancement beyond the affected connection.
 
-The renderer projects 3D coordinates onto Canvas 2D and draws solid blocks, links and moving packets. It is a lightweight educational renderer, not a WebGL cloud emulator. Packet animation, layout and timing are illustrative.
+The renderer projects 3D coordinates onto Canvas 2D and draws illustrated isometric workstations, server racks, registry vaults, database cylinders, container stacks, cluster platforms, CI/CD machinery and monitoring consoles. Cyan glowing routes and moving packets identify the active connection; other connections remain subdued. It is a lightweight educational renderer, not a WebGL cloud emulator. Packet animation, layout and timing are illustrative.
 
 ## Inspect networking rather than guessing
 
@@ -125,7 +126,7 @@ npm run check
 npm test
 ```
 
-The current suite has **25 Node test cases**, including one that runs **four real Python HTTP/database integration tests**. It covers all topic selections, lesson stages, assessment attempts, minimum evidence handling, progress persistence/reset, prerequisites, curriculum/model references, network deny conditions, connection picking, response ports, corrupt-storage input and renderer coordinate checks at multiple widths. DOM tests use a minimal fixture, not a real browser.
+The current suite has **26 Node test cases**, including one that runs **four real Python HTTP/database integration tests**. It covers all topic selections, lesson stages, assessment attempts, minimum evidence handling, progress persistence/reset, prerequisites, curriculum/model references, network deny conditions, connection picking, response ports, corrupt-storage input and renderer coordinate checks at multiple widths. DOM tests use a minimal fixture, not a real browser.
 
 Verified locally: JavaScript syntax; these automated tests; the supplied API’s health, product read, metrics and 404 behavior over loopback HTTP.
 
@@ -157,7 +158,8 @@ dist/
   network.js              Connection examples and policy decision model
   projects.js             Three guided project plans
   projects/learning-app/  Real demo API, tests, Dockerfile and teaching configs
-  model.js                Lightweight projected 3D canvas renderer
+  model.js                Projected isometric scene and traffic renderer
+  model-assets.js         Detailed code-native illustrated component geometry
   core.js / app.js         Model progress and site interactions
 tests/                    Content, state, DOM, renderer and API integration checks
 .github/workflows/        Checks and optional Pages deployment
